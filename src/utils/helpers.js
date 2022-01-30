@@ -6,3 +6,7 @@ export function filterData(dataArray) {
 			return result;
 		},{})
 }
+
+export const getTimeZone = () => {
+	
+}

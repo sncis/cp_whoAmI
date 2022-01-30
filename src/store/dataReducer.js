@@ -17,6 +17,11 @@ export const dataReducer= (state, {type, payload}) => {
 			...state,
 			error: payload
 		}
+	case "SET_CANVASHASH":
+		return{
+			...state,
+			canvasHash: payload
+		}
 	default: 
 		return {
 			loading:false

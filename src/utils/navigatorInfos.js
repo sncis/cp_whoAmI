@@ -34,6 +34,8 @@ export const getLanguages = () => {
 
 
 export const getPlatform = () => {
+	let { platform } = window.navigator
+	
 	if(isChrome()){
 		navigator.userAgentData.getHighEntropyValues(
 		["platform", "platformVersion"]).then(el => {
@@ -44,9 +46,11 @@ export const getPlatform = () => {
 		});
 	}
 
-	else{
-		return window.navigator.platform ? window.navigator.platform : undefined
+	if(platform === "MacIntel" && isTouchScreen()){
+		return 'iPad'
 	}
+
+	return platform ? platform : undefined
 }
 
 export const getCPU = () => {
@@ -56,6 +60,33 @@ export const getCPU = () => {
 export const getDeviceMemeory = () => {
 	return navigator.deviceMemory || undefined 
 }
+
+export const getPdfViewerEnabled = () => {
+	return navigator.pdfViewerEnabled
+}
+
+export const getCookisEnabled = () => {
+	return navigator.cookieEnabled
+}
+
+export const getScreenDepth = () => {
+	return window.screen.colorDepth
+}
+
+export const getPlugins = () => {
+	let {plugins} = navigator.plugins
+	let pNames = []
+
+	if(plugins){
+		for(let p of plugins){
+			pNames.push(p["name"])
+		}
+	}
+
+	return plugins ? pNames : undefined
+}
+
+
 
 
 

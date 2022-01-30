@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import FingerprintComp from './FingerprintComp'
 import { useNavigate } from 'react-router-dom'
 import { SET_LOADING,SET_DISPLAYINFOS } from '../store/constants'
 import { displayInfos } from '../utils/displayInfos'
@@ -18,6 +19,9 @@ const HomeComp = () => {
 		})
 
 		const infos = await displayInfos()
+		console.log(Object.keys(infos).length, 'info length')
+		console.log(infos)
+
 
 		dispatch ({
 			type:SET_DISPLAYINFOS,
@@ -47,6 +51,8 @@ const HomeComp = () => {
 
 	return(
 		<div> 
+			<FingerprintComp />
+
 			<button className='startBtn' onClick={() => setNavigation(true)}>Who Am I?</button>
 		</div>
 	)
