@@ -91,6 +91,7 @@ const FingerprintComp = () => {
 	},[])
 
 	useEffect(() => {
+		console.log(hashString)
 		dispatch({
 			type: SET_CANVASHASH,
 			payload: hashString

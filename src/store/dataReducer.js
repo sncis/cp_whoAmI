@@ -18,6 +18,7 @@ export const dataReducer= (state, {type, payload}) => {
 			error: payload
 		}
 	case "SET_CANVASHASH":
+		console.log("canvashash," , payload)
 		return{
 			...state,
 			canvasHash: payload

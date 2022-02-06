@@ -12,8 +12,10 @@ const CanvasComp = () => {
 	const dispatch = useDataDispatchCtx()
 	const navigate = useNavigate()
 
+
 	useEffect(() => {
-		console.log(state)
+		console.log("***** DISPLAY INFOS *******")
+		console.log(state.displayInfos)
 	},[state])
 
 	useEffect(() => {

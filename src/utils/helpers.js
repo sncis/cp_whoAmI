@@ -7,6 +7,12 @@ export function filterData(dataArray) {
 		},{})
 }
 
-export const getTimeZone = () => {
+export const filterIPInfos = (infos) => {
+	let infoKeys = ['as', "city","regionName","timezone","vendor","zip"]
+
+	return Object.keys(infos).filter(el => infoKeys.includes(el)).reduce((result,key) => {
+		result[key] = infos[key]
+		return result
+	},{})
 	
 }

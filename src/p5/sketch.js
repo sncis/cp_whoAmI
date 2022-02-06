@@ -1,5 +1,5 @@
 import port from '../img/port.jpeg'
-import { getBrowser } from '../utils/browserInfos'
+import { getBrowser } from '../infoSources/browserInfos'
 import { SET_ERROR } from '../store/constants'
 
 
@@ -57,6 +57,11 @@ export const sketch = (p5)=> {
 			await p5.state.displayInfos
 			infos = Object.values(p5.state.displayInfos)
 
+			console.log(infos)
+			for(let i of infos){
+				console.log(i)
+			}
+
 
 			p5.createCanvas(width, window.innerHeight -100)
 			
@@ -94,6 +99,16 @@ export const sketch = (p5)=> {
 		p5.background(255)
 		p5.fill(0)
 		p5.ellipse(100,100,50)
+		if(infos){
+			for(let [i,v] of Object.entries(infos)) {
+				// console.log(v)
+				let x = 100 + i * 10
+				let y = 50 + i* 10
+				p5.ellipse(x,y,10)
+				p5.text(v,x,y + 15)
+			}
+		}
+		
 	}
 
 }
