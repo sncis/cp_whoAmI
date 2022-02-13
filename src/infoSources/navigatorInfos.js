@@ -34,7 +34,7 @@ export const getLanguages = () => {
 
 export const getPlatform = () => {
 	let { platform } = window.navigator
-	
+	//platform ist betriebssystem
 	if(isChrome()){
 	 return navigator.userAgentData.getHighEntropyValues(
 		["platform", "platformVersion"]).then(el => {

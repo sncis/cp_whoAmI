@@ -23,6 +23,18 @@ export const dataReducer= (state, {type, payload}) => {
 			...state,
 			canvasHash: payload
 		}
+	case "SET_FINGERPRINTDATA":
+		console.log('fingerprint data set')
+		return{
+			...state,
+			fingerPrintData: payload
+		}
+		case "SET_IPINFOS": 
+		console.log("set ip infos dispatched")
+		return{
+			...state,
+			ipInfos: payload
+		}
 	default: 
 		return {
 			loading:false

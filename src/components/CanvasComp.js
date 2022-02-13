@@ -23,6 +23,8 @@ const CanvasComp = () => {
 			navigate('/')
 		}
 	},[navigate, state])
+
+
 	
 	return(
 		<div> 

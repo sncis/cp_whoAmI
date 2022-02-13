@@ -1,111 +1,106 @@
-import React, {useRef, useEffect, useState, useCallback} from 'react'
+import React, {useRef, useEffect, useState, useCallback } from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
-import { SET_CANVASHASH } from '../store/constants'
+import { systemInfos } from '../infoSources/systemInfos'
+import { hashFunction } from '../utils/hash'
+import { drawCanvasFingerPrint } from '../utils/canvasDraw'
+import { deletData, storeFingerprint, getFingerprintInfos,storeIPInfos } from '../store/actions/fingerPrintActions'
+import { backendFetcher } from '../store/actions/backendFetcher'
 
 const FingerprintComp = () => {
 
-	const [hashString, setHash] = useState('')
+	const [canvasHash, setCanvasHash] = useState('')
+	const [ fingerPrintID, setFingerPrintID] = useState('')
 	const dispatch = useDataDispatchCtx()
 
 	const canvasRef = useRef(null)
-	
-	let c1 = "rgb(25,39,242)"
-	let c2 = "rgb(250,10,241)"
-	let c3 = "rgb(60,255,239)"
 
-	let c4 = "rgb(255,246,62)"
-	let c5 = "rgb(61,255,142)"
-	let c6 = "rgb(230,108,8)"
+	const draw = useCallback(async() => {
+		let c1 = "rgb(25,255,0)"
+		let c2 = "rgb(250,10,241)"
+		let c3 = "rgb(255,0,0)"
+		let c4 = "rgb(10,30,255)"
 
-
-	const drawFingerPrint = useCallback((ctx,color1, color2, color3) => {
-		ctx.beginPath()
-		ctx.fillStyle = color1;
-		ctx.lineTo(10,40)
-		ctx.lineTo(120,40)
-		ctx.lineTo(10,90)
-		ctx.lineTo(70,90)
-		ctx.fill()
-		ctx.closePath();
-
-
-		ctx.beginPath()
-		ctx.fillStyle = color2;
-		ctx.lineTo(40,10)
-		ctx.lineTo(90,10)
-		ctx.lineTo(90,40)
-		ctx.lineTo(70,40)
-		ctx.lineTo(70,60)
-		ctx.lineTo(100,60)
-		ctx.lineTo(100,80)
-		ctx.lineTo(10,80)
-		ctx.lineTo(10,100)
-		ctx.fill()
-		ctx.shadowBlur=5;
-		ctx.shadowColor="rgb(134,12,255)";
-		ctx.closePath();
-
-		ctx.fillStyle = color1;
-		let txt1 = 'A$x^%!Q>';
-		ctx.textBaseline = "top";
-		ctx.font = '60px "Times New Roman"';
-		ctx.rotate(-.3);
-		ctx.fillText(txt1, -30, 10);
-
-		let txt = 'AshybxYzgst$57jgcsfpo;?S@^%!_+=}"](Q>';
-		ctx.textBaseline = "top";
-		ctx.font = '10px "Arial"';
-		ctx.textBaseline = "alphabetic";
-		ctx.fillStyle = color3;
-		ctx.rotate(.5);
-		ctx.fillText(txt, 5, 10);
-
-		ctx.fillStyle = "rgb(205,255,155)";
-		ctx.shadowBlur=9;
-		ctx.shadowColor="rgb(255,1,1)";
-		ctx.fillRect(100,0,10,50);
-		
-
-	},[])
-	
-//canvas fingerprinting effect
-	useEffect(() => {
 		const canvas = canvasRef.current
 		const ctx = canvas.getContext('2d')
 
-		drawFingerPrint(ctx,c1, c2,c3)
-		ctx.rotate(-.3)
-		ctx.transform(.8, .3, .2, .8, 20, 50);
-		drawFingerPrint(ctx,c4,c5,c6)
-
-
-		let src = canvas.toDataURL();
-		let hash = 0;
+		await drawCanvasFingerPrint(ctx,c1, c2,c3,c4)
 		
-		for(let index in src){
-			let char = src.charCodeAt(index)
-			hash = ((hash<<5)-hash)+char
-			hash = hash & hash
-			setHash(hash)
-		}
+		let src = canvas.toDataURL();
+		let hashString = hashFunction(src)
+		console.log('hatString in drawing comp ', hashString)
+	
+		setCanvasHash(hashString)
 	},[])
 
-	useEffect(() => {
-		console.log(hashString)
-		dispatch({
-			type: SET_CANVASHASH,
-			payload: hashString
-		})
-	},[hashString, dispatch])
 
-// info fingerprinting
+// draw canvas fingerprinting effect
+	useEffect(() => {
+		draw()
+	},[draw])
+
+
+// create fingerprinting
+const createFingerPrint = useCallback(async()=> {
+	let systemInf = await systemInfos()
+
+	let systemString = Object.values(systemInf).join('').replace(/[\s,-.—]/g, '')
+	console.log(systemInf)
+
+	let hash = canvasHash
+	let fingerprintString = hashFunction(systemString.concat(hash))
+
+	// let userData = {...systemInf, ...hash}
+	console.log("systemString")
+	console.log(systemString)
+
+	console.log("fingerprintString")
+	console.log(fingerprintString)
+	// return userData
+	return fingerprintString
+	
+},[])
+
+
+
+useEffect(() => {
+	console.log("fetching backend")
+
+	const fetch = async() => {
+		let options = { url:'/test/ip', method:'get'}
+		let resp = await backendFetcher(options)
+
+		dispatch(storeIPInfos(resp.data))
+		console.log(resp)
+	}
+
+	fetch()
+
+},[])
+
+
+
+useEffect(() => {
+	const getFingerprint = async() => {
+		let fingerPrint = await createFingerPrint()
+		console.log(fingerPrint)
+		setFingerPrintID(fingerPrint)
+		storeFingerprint(fingerPrint)
+		getFingerprintInfos(fingerPrint)
+	}
+
+	getFingerprint()
+	
+},[createFingerPrint])
+
+
 
 
 
 	return(
 		<div style={{border: '1px solid red', margin:"10px"}}>
-			<p>{hashString}</p>
+			<p>{canvasHash}</p>
 			<canvas ref={canvasRef} width='200' height='100' style={{border:'1px solid #000000'}}></canvas>
+			<button onClick={() => deletData(fingerPrintID)}>delete infos</button>
 		</div>
 	)
 }

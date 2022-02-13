@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import FingerprintComp from './FingerprintComp'
+import FingerprintComp from './FingerprintCompOut'
 import { useNavigate } from 'react-router-dom'
 import { SET_LOADING, SET_DISPLAYINFOS } from '../store/constants'
 import { systemInfos } from '../infoSources/systemInfos'
@@ -18,7 +18,7 @@ const HomeComp = () => {
 	const [navigation, setNavigation] = useState(false)
 	const [ip, setIp] = useState(undefined)
 	const [ipInfos, setIpInfos] = useState(undefined)
-
+	// const [userData, setUserData] = useState(undefined)
 	
 
 	const fetchIP = useCallback( async() => {
@@ -46,12 +46,28 @@ const HomeComp = () => {
 			// console.log(infos.status)
 			if(infos.status === 200){
 				// setIpInfos(infos.data)
+
 				return filterIPInfos(infos.data)
 			}
 		}catch(error){
 			console.log(error)
 		}
 	},[])
+
+	// const storeData = useCallback(async(data) => {
+	// 	const options = {
+	// 		url:"/infos",
+	// 		method: "post",
+	// 		data: data
+	// 	}
+	// 	try{
+	// 		let resp = await backendFetcher(options)
+	// 		console.log(resp)
+	// 	}catch(err){
+	// 		console.log("error to post data to backend:")
+	// 		console.log(err)
+	// 	}
+	// })
 
 
 	const collectInfos = useCallback( async() => {
@@ -60,15 +76,21 @@ const HomeComp = () => {
 			payload: true
 		})
 
-		const canvasHash = state.canvasHash
+		// const canvasHash = state.canvasHash
 		const ip = await fetchIP()
 		const infos = await systemInfos()
 		const ipInfoData = await fetchIPInfos(ip)
+		// const fingerPrintData = state.fingerPrintData
 
-		let data = {...infos, ...ipInfoData, canvasHash}
-		// console.log("data")
-		// console.log(data)
+		let data = {...infos, ...ipInfoData}
+		// let data = {...ipInfoData, fingerPrintData}
+		// let data ={}
 
+		console.log("data")
+		console.log(data)
+
+
+		// setUserData(data)
 	
 		dispatch ({
 			type:SET_DISPLAYINFOS,
@@ -80,7 +102,7 @@ const HomeComp = () => {
 			payload: false
 		})
 	
-	},[dispatch,fetchIP,fetchIPInfos,state.canvasHash])
+	},[dispatch,fetchIP,fetchIPInfos])
 
 
 
@@ -96,13 +118,19 @@ const HomeComp = () => {
 
 	useEffect(() => {
 		collectInfos()
-	},[collectInfos])
+	},[])
 
-	useEffect(() => {
-		if(navigation && !state.loading) {
-			navigate('/sketch')
+	// useEffect(() => {
+	// 	if(navigation && !state.loading) {
+	// 		navigate('/sketch')
+	// 	}
+	// },[navigation, navigate, state,state.loading])
+
+	useEffect(()=>{
+		if(navigation){
+			navigate('/home')
 		}
-	},[navigation, navigate, state,state.loading])
+	},[navigation,navigate])
 
 
 	return(
