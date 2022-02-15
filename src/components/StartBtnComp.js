@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDataStateCtx } from '../store/dataContext'
 
 
-const StartBtnComp = () => {
+const StartBtnComp = ({}) => {
 
 	const {loading} = useDataStateCtx()
 	const navigate = useNavigate()
@@ -12,8 +12,7 @@ const StartBtnComp = () => {
 
 	useEffect(() => {
 		if(navigation && !loading){
-			console.log('navigation clicked')
-			// navigate('/sketch')
+			navigate('/sketch')
 		}
 	},[navigate, loading, navigation])
 

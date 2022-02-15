@@ -35,6 +35,20 @@ export const dataReducer= (state, {type, payload}) => {
 			...state,
 			ipInfos: payload
 		}
+		case "SET_FINGERPRINT":
+			return{ 
+				...state,
+				fingerprint: payload
+			}
+		case "SET_LASTVISITSTEXT":
+			return{
+				...state,
+				lastVisitText: payload
+			}
+		case 'RESET_STORE':
+			return {
+				loading:false
+			}
 	default: 
 		return {
 			loading:false
