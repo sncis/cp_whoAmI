@@ -7,7 +7,7 @@ export const sketch = (p5)=> {
 	p5.state = {}
 	p5.dispatch = () => {}
 
-	const width = window.innerWidth
+	const width = window.innerWidth -200
 	// let height
 	let infos
 	let img

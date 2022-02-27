@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { SET_LOADING, SET_DISPLAYINFOS } from '../store/constants'
 import { systemInfos } from '../infoSources/systemInfos'
 import { useDataDispatchCtx, useDataStateCtx } from '../store/dataContext'
-import { backendFetcher } from '../store/actions/backendFetcher'
-import { apiFetcher } from '../store/actions/apiFetcher'
+import { backendFetcher } from '../utils/apiHelpers/backendFetcher'
+import { apiFetcher } from '../utils/apiHelpers/apiFetcher'
 import { filterIPInfos } from '../utils/helpers'
 
 const HomeComp = () => {

@@ -6,16 +6,12 @@ export const useTypingEffect = (text) => {
 	useEffect(() => {
 		const typingEffect = setTimeout(() => {
 			setTypedText(text.slice(0, typedText.length + 1))
-			console.log("length of typed text")
-			console.log(typedText.length)
-		}, 200)
+			// console.log("length of typed text")
+			// console.log(typedText.length)
+		}, 100)
 		
 		return () => clearTimeout(typingEffect)
 	},[text, typedText])
-
-	// if(typedText.length === text.length){
-	// 	return true
-	// }
 
 	return typedText
 }

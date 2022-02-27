@@ -37,7 +37,7 @@
   }
 }
 
-.startBtn {
+/* .startBtn {
   cursor: pointer;
   position:absolute;
   top: 50%;
@@ -56,7 +56,7 @@
 
 .startBtn:disabled {
   /* cursor: pointer; */
-  position:absolute;
+  /* position:absolute;
   top: 50%;
   left: 50%;
   margin-top: -50px;
@@ -69,37 +69,19 @@
   font-weight:600;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 
-}
+} */
 
-.navContainer{
+/* .navContainer{
   position:relative;
   margin: 10px
-}
+}  */
 
-#backArrow {
+
+
+/* #deleteBtn{
   cursor:pointer;
-  position: fixed;
-  top:0px;
-  left:10px;
-  height: 2rem;
-
-}
-
-#moreInf{
-  cursor:pointer;
-
-  position:fixed;
-  margin: 0px;
-  right:10px;
-  height:10px
-}
-
-
-#deleteBtn{
-  cursor:pointer;
-
   position:fixed;
   margin:0;
   right:10px;
   bottom: 10px
-}
+} */

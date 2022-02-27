@@ -2,7 +2,7 @@ import React, { createElement, useEffect, useState, useCallback} from 'react'
 
 import StartBtnComp from '../components/StartBtnComp'
 import FingerPrintComp from '../components/FingerprintComp'
-import APIComp from '../components/APIComp'
+import InfoComp from '../components/InfoComp'
 import { useDataStateCtx } from '../store/dataContext'
 import TextComp from '../components/TextComp'
 
@@ -12,6 +12,7 @@ const HomePage = () => {
 	const {lastVisitText} = useDataStateCtx()
 
 	const [renderComp, setRenderComp] = useState([])
+	const [count, setCount] = useState(1)
 
 	useEffect(() => {
 		console.log("*********HOME PAGE**************")
@@ -19,22 +20,23 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if(lastVisitText){
-			let props ={i:1, text:lastVisitText}
+			// let index = Math.random(0,100)
+			console.log(count)
+			setCount(c => c +1)
+			let props ={i:count, text: lastVisitText}
 			let element = createElement(TextComp, props)
-			setRenderComp( c => [...c, element])
+			setRenderComp(comps => [...comps, element])
 		}
-	
-
 	},[lastVisitText])
 
 	
 	return(
 		<div> 
 			<FingerPrintComp />
-			<StartBtnComp />
+			<InfoComp />
 
-			{ lastVisitText && renderComp.map(comp => comp)}
-			{/* <APIComp /> */}
+			<StartBtnComp />
+			{ lastVisitText && renderComp}
 		</div>
 	)
 }

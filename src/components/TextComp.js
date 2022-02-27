@@ -1,4 +1,4 @@
-import "../css/TextComp.css"
+import "../style.css"
 import React, { useRef } from 'react'
 import { useTypingEffect } from '../effects/typingEffect'
 
@@ -12,11 +12,10 @@ const TextComp = (props) => {
 	}
 
 	return(
-		<div>
-			<p key={props.i +1} id={props.i +1} className='typed-text blinking-cursor'>{typedText}</p>
+		<div key={props.i + 1 }>
+			<p id={props.i + 1 } className='typed-text blinking-cursor'>{typedText}</p>
 		</div>
 	)
-
 }
 
 export default TextComp

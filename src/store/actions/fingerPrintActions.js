@@ -1,4 +1,4 @@
-import { backendFetcher } from './backendFetcher'
+import { backendFetcher } from '../../utils/apiHelpers/backendFetcher'
 import { SET_IPINFOS} from '../constants'
 
 
@@ -22,18 +22,18 @@ export const storeFingerprint = async(fingerPrint) => {
 
 	let options = { url:'/fingerprint', method: 'post', data:{ visited: time, fingerPrint: fingerPrint}}
 	try{
-		
 		await backendFetcher(options)
 	}catch(error){
 		console.log(error)
+		console.log("Error when storing fingerprint data")
 	}
 }
 
 //converting date string fromlast visits in more readable date
-const getLastVisits = (entries) => {
-	console.log(entries)
+const getLastVisit = (entries) => {
+	// console.log(entries)
 	const lastEntrie = entries.slice(-1)[0]
-	console.log(lastEntrie.visited)
+	// console.log(lastEntrie.visited)
 	
 	if(!lastEntrie){
 		return undefined
@@ -53,7 +53,7 @@ export const getFingerprintInfos = async(id) => {
 		let resp = await backendFetcher(options)
 		// console.log("fingerPrint entries from db")
 		// const lastVisited = getLastVisits(resp.data)
-		const lastVisited = getLastVisits(entriesTest)
+		const lastVisited = getLastVisit(entriesTest)
 
 		if(!lastVisited){
 			return undefined
@@ -68,28 +68,21 @@ export const getFingerprintInfos = async(id) => {
 		// console.log(resp)
 	}catch(err){
 		console.log(err)
+		console.log("Error in getting fingerprint infos")
 	}
 }
 
 //delete fingerprint infos in backend
 export const deletData = async(id) => {
-	console.log('deletion of data called')
+	// console.log('deletion of data called')
 	const options = {url:`/fingerprint?id=${id}`, method: 'delete'}
 	try{
 		let deletion = await backendFetcher(options)
-		console.log('deleted arrayys')
+		// console.log('deleted arrayys')
+		let count = deletion.count
 		console.log(deletion)
+		return count
 	}catch(err){
 		console.log('errror from deletion', err)
-	}
-}
-
-//store actions 
-export const storeIPInfos = (data) => {
-	console.log("data from ip infos")
-	console.log(data)
-	return {
-		type: SET_IPINFOS,
-		payload: data
 	}
 }

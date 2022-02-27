@@ -1,10 +1,12 @@
-import React, { useRef, useLayoutEffect,memo} from 'react'
+import React, { useRef, useLayoutEffect} from 'react'
 import p5 from "p5"
 
-export const p5Wrapper = () => {
-	let canvas= null
+// export const p5Wrapper = () => {
+	// let canvas= null
 
 	const P5Wrapper =({sketch=()=>{}, dispatch = () =>{}, state= {}}) => {
+		let canvas= null
+
 		const wrapper = useRef()
 
 		useLayoutEffect(() => {
@@ -22,13 +24,15 @@ export const p5Wrapper = () => {
 		}, [state,dispatch,sketch])
 
 		return(
-			<div ref={wrapper} style={{border:'1px solid red'}}>	
+			<div ref={wrapper} style={{border:'1px solid red', width: '90vw', margin:'auto'}}>	
 			</div>
 		)
 	}
 
-	return memo(P5Wrapper, (_,nextProps) => {
-		canvas.state ={...nextProps.state}
-		return true
-	})
-}
+	// return memo(P5Wrapper, (_,nextProps) => {
+	// 	canvas.state ={...nextProps.state}
+	// 	return true
+	// })
+// }
+
+export default React.memo(P5Wrapper)

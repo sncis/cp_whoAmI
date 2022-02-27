@@ -91,6 +91,19 @@ export const getPlugins = () => {
 	return plugins ? pNames : undefined
 }
 
+export const getScreenResolution = () => {
+	const width = window.screen.width
+	const height = window.screen.height
+	const depth = window.screen.colorDepth
+	return `${width},${height},${depth}`
+}
+
+export const getZoomLevel = () => {
+	const zoom = Math.ceil(((window.outerWidth - 10 ) / window.innerWidth) * 100);
+	console.log(zoom, "zoom level")
+	return zoom
+
+}
 
 
 

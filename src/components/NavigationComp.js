@@ -1,42 +1,22 @@
-import "../App.css"
+import "../style.css"
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import backImg from '../img/back.png'
-import { useDataStateCtx, useDataDispatchCtx } from '../store/dataContext'
-import { deletData } from '../store/actions/fingerPrintActions'
-import { RESET_STORE } from '../store/constants'
+import { useLocation, Link } from 'react-router-dom'
 
 const NavigationComp = () => {
-	const state = useDataStateCtx()
-	const dispatch = useDataDispatchCtx()
-	const navigate = useNavigate()
 
-	const [deleteInfos, setDelete] = useState(false)
-	const [back, setBack] = useState(false)
+	const location = useLocation()
+	const [isAbout, setIsAbout] = useState(false)
 
 	useEffect(() => {
-		if(deleteInfos){
-			deletData(state.fingerprint)
-			navigate('/')
+		if(location.pathname === '/about'){
+			setIsAbout(true)
 		}
-	},[deleteInfos, navigate,state.fingerprint])
-
-	useEffect(() => {
-		if(back){
-			dispatch({
-				type: RESET_STORE
-			})
-			navigate('/')
-		}
-	})
-
+	},[location.pathname])
 	
 	return(
 		<div className="navContainer"> 
-			<img src={backImg} alt="back arrow" id="backArrow" onClick={() => setBack(true)}/>
-			<p id="moreInf">more information</p>
-			<button id="deleteBtn" onClick={() => setDelete(true)}>delete my Data</button> 
-
+			<Link to='/' className="navigation backHome">home</Link>
+			{	!isAbout && <Link to='/about' className="navigation moreInf">more information</Link>}
 		</div>
 	)
 

@@ -1,13 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import HomeComp from './components/HomeComp'
-import CanvasComp from './components/CanvasComp'
+
 import HomePage from "./pages/HomePage"
 import { DataStateProvider } from './store/dataContext'
 import CanvasPage from "./pages/CanvasPage"
-import APIComp from './components/APIComp'
-
+import InfoPage from './pages/InfoPage'
 
 
 function App() {
@@ -16,10 +14,10 @@ function App() {
       <DataStateProvider>
         <BrowserRouter>
         <Routes> 
-          <Route path='/' element={<HomeComp />} />
+          {/* <Route path='/' element={<HomeComp />} /> */}
+          <Route path='/' element={<HomePage />} />
           <Route path='/sketch' element={<CanvasPage />} />
-          <Route path='/home' element={<HomePage />} />
-
+          <Route path='/about' element={<InfoPage />} />
         </Routes>
         </BrowserRouter>
       </DataStateProvider>

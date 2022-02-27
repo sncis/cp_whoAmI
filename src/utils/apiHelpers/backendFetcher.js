@@ -13,6 +13,7 @@ export const backendFetcher = async(options) => {
 
 	}catch(error){
 		console.log(error)
+		// return undefined
 		// throw new Error("Problems with backend connection")
 	}
 }
