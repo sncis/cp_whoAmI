@@ -32,33 +32,33 @@ export const isSafariMobile = () => {
 
 export const getBrowser = () => {
 	if(isChrome()){
-		return 'chrome'
+		return 'Chrome'
 	}
 	if(isFirefox()) {
-		return 'firefox'
+		return 'Firefox'
 	}
 	if(isSafariDesktop()){
-		return 'safari desktop'
+		return 'Safari'
 	}
 	if(isSafariMobile()){
-	return 'safari mobile'
+	return 'Safari Mobile'
 	}
 	else{
-		return 'unknown broser'
+		return 'unknown browser'
 	}
 }
 
 export const getBrowserVersion = () => {
-	const ua = navigator?.userAgent ? navigator.userAgent : 'some'
+	const ua = navigator.userAgent ? navigator.userAgent : ''
 
 	if(browserInfosHelper.isChrome()){
-		navigator.userAgentData.getHighEntropyValues(['uaFullVersion']).then(version => {
-			return version
+		return navigator.userAgentData.getHighEntropyValues(['uaFullVersion']).then(version => {
+			return version['uaFullVersion']
 		})
 	}
 	
 	else if(ua.match(new RegExp(/Firefox|FxiOS/))){
-		return ua.split("Firefox/")[1]?.split('.')[0] || ua.split("FxiOS/")[1]?.split('.')[0] + 'mobile'
+		return ua.split("Firefox/")[1]?.split('.')[0] || ua.split("FxiOS/")[1]?.split('.')[0]
 	}
 
 	else if(ua.match((new RegExp(/^((?!chrome|android).)*safari/i)))){

@@ -40,6 +40,12 @@ export const dataReducer= (state, {type, payload}) => {
 				...state,
 				fingerprint: payload
 			}
+		case "SET_DRAWVARIABLES":
+			return {
+				...state,
+				drawVariables: payload
+
+			}
 		case "SET_LASTVISITSTEXT":
 			return{
 				...state,

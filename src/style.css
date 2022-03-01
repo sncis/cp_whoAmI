@@ -8,6 +8,26 @@ h2{
 	font-weight: 500;
 	font-size:medium
 }
+.p5Canvas {
+  /* justify-content: center; */
+
+  /* This centers our sketch vertically. */
+  /* align-items: center; */
+  /* margin: auto; */
+  /* width:90vw; */
+  /* margin-top: 50px; */
+  /* border: 1px solid green; */
+}
+
+.canvasContainer {
+  display:flex;
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+  margin-top: 100px;
+  border: 1px solid green; 
+ }  
 
 #infoText{
   line-height: 1.5;

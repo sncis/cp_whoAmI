@@ -1,3 +1,4 @@
+import "../style.css"
 import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import P5Wrapper  from './P5Wrapper'
@@ -28,8 +29,8 @@ const CanvasComp = () => {
 
 	
 	return(
-		<div> 
-			<p>canvas</p>
+		<div > 
+			{/* <p>canvas</p> */}
 			{state.displayInfos && <P5Wrapper sketch={sketchNew} dispatch={dispatch} state={state} />}		
 		</div>
 	)

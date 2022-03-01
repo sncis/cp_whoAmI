@@ -10,12 +10,11 @@ export const sketchNew = (p5) => {
 	p5.dispatch = () => {}
 
 	const width = window.innerWidth
-
 	let height
 	let portImg
 	let particles = []
 	let spots = []
-	let infos
+	let infos =[]
 	let canvas
 	let infoPoints = []
 	let drawParticles = false
@@ -23,6 +22,7 @@ export const sketchNew = (p5) => {
 	let startTime
 	let startValue
 	let drawStart = false
+	let drawVars = []
 
 	
 // select image based on browser
@@ -44,12 +44,14 @@ export const sketchNew = (p5) => {
 		let spot = spots[index]
 		let x = spot.x
 		let y = spot.y
+		let color = spot.col
 		let valid = true
 
 		for(let p of particles){
-			let dist = p5.dist(x,y,p.x,p.y)
+			let dist = p5.dist(x,y,(p.x + p.getTextWidth()),(p.y + 15))
+			let pWidth = p.radius * 2 
 
-			if(dist < p.radius * 2){
+			if(dist < p.getTextWidth()){
 				valid = false
 				break
 			}
@@ -57,7 +59,7 @@ export const sketchNew = (p5) => {
 
 		if(valid){
 			let info = infos.shift()
-			return info !== undefined ? new Particle(p5, x, y, info) : new Particle(p5, x, y)
+			return info !== undefined ? new Particle(p5, x, y, color,p5.state.drawVariables, info) : new Particle(p5, x, y, color,p5.state.drawVariables)
 		}else{
 			return null
 		}
@@ -65,23 +67,17 @@ export const sketchNew = (p5) => {
 
 
 	const createPoints = () => {
-		let total = 600
+		// let total = 600
+		
+		let total = p5.state.drawVariables.screenResolution.width || 1000
 		let count = 0
-		let attempts = 0
-
 		while(count < total){
 			let particle = createNewParticle()
-
 			if(particle){
 				particles.push(particle)
 				count ++
 			}
-			// attempts ++
-
-			// if(attempts > 1000){
-
-			// }
-
+			
 			if(count >= total){
 				drawParticles = true
 				startTime = p5.millis()
@@ -90,10 +86,6 @@ export const sketchNew = (p5) => {
 			}
 		}
 	}
-
-	
-
-
 
 	/*  p5 functions */
 	p5.preload = () => {
@@ -109,22 +101,30 @@ export const sketchNew = (p5) => {
 
 	p5.setup = async() => {
 		await p5.state.displayInfos
-		infos = Object.values(p5.state.displayInfos)
+		await p5.state.drawVariables
+		// console.log(p5.state)
 
+		// drawVars = Object.values(p5.state.drawVariables)
+	
+		infos = Object.values(p5.state.displayInfos)
+		
 		canvas = p5.createCanvas(width, height + 100)
+	
 
 		portImg.loadPixels()
-
+	
 		for(let x = 0; x < portImg.width; x++){
 			for(let y = 0; y < portImg.height; y++){
 				if(x === portImg.width - 1 && y === portImg.height - 1){
 					createPoints()
 				}
 				let index = (x + y * portImg.width) * 4
-				let color = portImg.pixels[index]
+				let col = portImg.pixels[index]
+				let color = portImg.get(x,y)
 
-				if(color < 230){
-					spots.push(p5.createVector(x,y))
+				if(col < 230){
+					// spots.push(p5.createVector(x,y))
+					spots.push({x: x, y:y, col: color})
 				}
 			}
 		}
@@ -134,11 +134,13 @@ export const sketchNew = (p5) => {
 	let current = startValue
 
 	p5.draw = async() => {
+		// p5.rectMode(p5.CENTER)
+		p5.translate(width / 2 - (width / 4), 10);
 		if(drawParticles){
 			progress = (p5.millis() - startTime) / duration 
-			if(progress >=2){
+			if(progress >= 2){
 				let p = infoPoints.shift()
-				console.log(p)
+				// console.log(p)
 				
 				if(p !== undefined){
 					while(p.growing){
@@ -156,7 +158,7 @@ export const sketchNew = (p5) => {
 							if(p !== otherP){
 								let dist = p5.dist(p.x, p.y, otherP.x, otherP.y)
 
-								if(dist < p.radius + otherP.radius){
+								if(dist < p.radius *  2  + otherP.radius * 2){
 									p.showInfo()
 									p.growing = false
 									break
@@ -166,9 +168,8 @@ export const sketchNew = (p5) => {
 						startValue = current
 						startTime = p5.millis()
 					}
-
 				}
-				
+			
 				if(p === undefined){
 					console.log("no p anymore")
 					drawStart = true
@@ -177,7 +178,7 @@ export const sketchNew = (p5) => {
 
 
 		if(drawStart)	{
-			console.log("draw start is ok")
+			// console.log("draw start is ok")
 			p5.frameRate(10)
 
 			for(let p of particles){
@@ -192,7 +193,7 @@ export const sketchNew = (p5) => {
 						for(let otherP of particles){
 							if( p !== otherP){
 								let dist = p5.dist(p.x, p.y, otherP.x , otherP.y)
-								if(dist -1 < p.radius + otherP.radius){
+								if(dist  < p.radius + otherP.radius){
 									p.growing = false
 									break
 								}
@@ -201,14 +202,9 @@ export const sketchNew = (p5) => {
 					}
 				}
 				p.grow()
-
 				p.show()			
 			}
 		}
 		}
 	}
-
-
-
-
 }

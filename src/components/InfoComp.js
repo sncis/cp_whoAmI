@@ -1,8 +1,8 @@
 import React, {useEffect, useCallback} from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
 import { backendFetcher } from '../utils/apiHelpers/backendFetcher'
-import { SET_IPINFOS, SET_LOADING, SET_DISPLAYINFOS } from '../store/constants'
-import { systemInfos } from '../infoSources/systemInfos'
+import { SET_IPINFOS, SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '../store/constants'
+import { systemInfos, infosWithDescription, displayInfos, getDrawVariables } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { fetchIpInfos } from '../store/actions/fetchActions'
 
@@ -35,14 +35,20 @@ const InfoComp = () => {
 		})
 
 		let ipInfos = await fetchIpInfos()
-		let getSystemInfos = await systemInfos()
+		let systemInfos = await displayInfos()
+		let drawVariables = await getDrawVariables()
+		// let getSystemInfos = await infosWithDescription()
 
 
-		let data = {...ipInfos, ...getSystemInfos, batteryLevel,charging,chargingTime,dischargingTime}
+		let data = {...ipInfos, ...systemInfos, batteryLevel,charging,chargingTime,dischargingTime}
 		// console.log(data)
 		dispatch({
 			type: SET_DISPLAYINFOS,
 			payload: data
+		})
+		dispatch({
+			type: SET_DRAWVARIABLES,
+			payload: drawVariables
 		})
 
 		dispatch({

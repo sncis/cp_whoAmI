@@ -17,6 +17,16 @@ export const filterIPInfos = (infos) => {
 	
 }
 
+export const filterStrings = (array) => {
+	return Object.keys(array).reduce((result, element) => {
+		if(!array[element].includes("undefined")){
+			console.log(array[element])
+			result[element] = array[element]
+		}
+			return result;
+		},{})
+}
+
 export const wait = (ms) => {
 	return new Promise(resolve => setTimeout(resolve, ms))
 }

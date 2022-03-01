@@ -18,13 +18,15 @@ import p5 from "p5"
 
 
 			return () => {
-				console.log("p5 wrapper removed")
+				// console.log("p5 wrapper removed")
 				canvas.remove()
 			}
 		}, [state,dispatch,sketch])
 
 		return(
-			<div ref={wrapper} style={{border:'1px solid red', width: '90vw', margin:'auto'}}>	
+			<div ref={wrapper} className='canvasContainer'>	
+
+			{/* <div ref={wrapper} className='canvasContainer' style={{border:'1px solid red', width: '90vw', margin:'auto'}}>	 */}
 			</div>
 		)
 	}

@@ -1,5 +1,6 @@
 import { isChrome } from './browserInfos'
 import * as navigatorInfosHelper from "./navigatorInfos"
+import { getOS, getOSVersion } from './oSInfoHelpers'
 // const win = window
 // const nav = navigator
 const ua = navigator?.userAgent ? navigator.userAgent : '' 
@@ -44,21 +45,17 @@ export const getPlatform = () => {
 			} 
 		});
 
-	}
+	}else{
+		if(platform === "Mac" && navigatorInfosHelper.isTouchScreen()){
+				return {platform: "iPad", version: getOSVersion()}
+			}
 
-	else if(platform === "MacIntel" && navigatorInfosHelper.isTouchScreen()){
-		return 'iPad'
-	}
-
-	else{
-		return platform ? platform : undefined
-	}
+			return {platform: platform ? platform : getOS(), version: getOSVersion()}
+		}	
 }
 
 export const getCPU = () => {
-	// return window.navigator?.hardwareConcurrency ? window.navigator.hardwareConcurrency : undefined
-
-	return window.navigator?.hardwareConcurrency 
+	return window.navigator?.hardwareConcurrency  || undefined
 }
 
 export const getDeviceMemeory = () => {
@@ -87,20 +84,25 @@ export const getPlugins = () => {
 			pNames.push(p["name"])
 		}
 	}
-
 	return plugins ? pNames : undefined
 }
 
-export const getScreenResolution = () => {
+export const getScreenResolution = (toString = false) => {
 	const width = window.screen.width
 	const height = window.screen.height
 	const depth = window.screen.colorDepth
-	return `${width},${height},${depth}`
+
+	if(toString){
+		return `${width},${height},${depth}`
+	}
+
+	return {width, height, depth}
+	// return `${width},${height},${depth}`
 }
 
 export const getZoomLevel = () => {
 	const zoom = Math.ceil(((window.outerWidth - 10 ) / window.innerWidth) * 100);
-	console.log(zoom, "zoom level")
+	// console.log(zoom, "zoom level")
 	return zoom
 
 }
