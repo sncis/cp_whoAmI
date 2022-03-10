@@ -12,7 +12,7 @@ const TextComp = (props) => {
 	}
 
 	return(
-		<div key={props.i + 1 }>
+		<div className='typed-text-container'>
 			<p id={props.i + 1 } className='typed-text blinking-cursor'>{typedText}</p>
 		</div>
 	)

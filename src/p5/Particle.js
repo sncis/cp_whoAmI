@@ -1,15 +1,43 @@
 // const Particle = (p5, x, y, info = undefined) => {
 export function Particle(p5,x,y, color, drawVars, info = undefined){
-	// console.log('x in particles', x, y)
 	this.x = x
 	this.y = y
 	this.info = info
-	this.radius = Math.round((drawVars.zoomlevel / drawVars.cpu) / drawVars.fonts)
 	this.growing = true
 	this.color = color
-
+	this.drawVars = drawVars
+	this.radius = Math.round((this.drawVars.zoomLevel / this.drawVars.cpu) / this.drawVars.fonts)
 	this.textWidth = p5.textWidth(info)
 
+	this.getX = () => {
+		return this.x
+	}
+	this.getY = () => {
+		return this.y
+	}
+
+	this.getInfo = () => {
+		return this.info
+	}
+
+	this.setInfo = (value) => {
+		this.info = value
+	}
+
+	this.isGrowing = () => {
+		return this.growing
+	}
+	this.setGrowing = (value) => {
+		this.growing = value
+	}
+
+	this.getRadius = () => {
+		return this.radius
+	}
+
+	this.getColor = () => {
+		return this.color
+	}
 
 	this.getTextWidth = () => {
 		// console.log(Math.floor(this.textWidth))
@@ -25,27 +53,19 @@ export function Particle(p5,x,y, color, drawVars, info = undefined){
 		return (this.x + this.radius > p5.width || this.x - this.radius < 0 || this.y + this.radius > p5.height || this.y - this.radius < 0)
 	}
 
-	
-
 	this.showInfo = () => {
 		p5.noStroke()
 		p5.textAlign(p5.CENTER)
 		p5.fill(0)
 		// p5.textWrap(p5.WORD)
-		p5.text(this.info, this.x, (this.y + this.radius + (drawVars.cpu * 2)))
+		p5.text(this.info, this.x, (this.y + this.radius + (this.drawVars.cpu + this.drawVars.deviceMemory)))
 	}
 
 	this.show = () => {
-		// console.log('text width', this.textWidth)
-
-		// console.log("show is called")
-		// console.log(this.color)
 		p5.fill(this.color)
 		p5.stroke(this.color)
 		p5.ellipse(this.x, this.y, this.radius * 2, this.radius * 2)
 	}
-
-
 }
 
 // export default Particle

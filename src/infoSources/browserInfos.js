@@ -16,7 +16,6 @@ export const isSafariDesktop = () => {
 }
 
 export const isChrome = () => {
-
 	if("webkitMediaStream" in window && "userAgentData" in navigator){
 		return true
 	}
@@ -68,5 +67,4 @@ export const getBrowserVersion = () => {
 	else{
 		return 0
 	}
-
 }

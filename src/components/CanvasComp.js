@@ -30,7 +30,6 @@ const CanvasComp = () => {
 	
 	return(
 		<div > 
-			{/* <p>canvas</p> */}
 			{state.displayInfos && <P5Wrapper sketch={sketchNew} dispatch={dispatch} state={state} />}		
 		</div>
 	)

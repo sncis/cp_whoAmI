@@ -60,12 +60,10 @@ const createFingerPrintString = useCallback(async()=> {
 useEffect(() => {
 	const doFingerprint = async() => {
 		let fingerPrintString = await createFingerPrintString()
-		// console.log(fingerPrint )
 		dispatch({
 			type:SET_FINGERPRINT,
 			payload: fingerPrintString
 		})
-		// setFingerPrintID(fingerPrint)
 		let lastVisit = await getFingerprintInfos(fingerPrintString)
 		let text;
 		
@@ -92,10 +90,10 @@ useEffect(() => {
 
 
 	return(
-		<div style={{border: '1px solid red', margin:"10px"}}>
-			<p>{canvasHash}</p>
-			<canvas ref={canvasRef} width='200' height='100' style={{border:'1px solid #000000'}}></canvas>
-	
+		// <div style={{border: '1px solid red', margin:"10px"}}>
+		<div>
+			{/* <p>{canvasHash}</p> */}
+			<canvas ref={canvasRef} width='200' height='100' hidden></canvas>
 		</div>
 	)
 }

@@ -35,12 +35,9 @@ const InfoPage = () => {
 			let middle = entries.length / 2
 			let length = entries.length
 
-			console.log("middle and length")
-			console.log(middle, length)
 
 			setFirstEntries(Object.entries(displayInfos).slice(0,middle))
-
-			setSecondEntries(Object.entries(displayInfos).slice(middle, length -1))
+			setSecondEntries(Object.entries(displayInfos).slice(middle, length - 1))
 		}
 		
 	},[fingerprint, displayInfos])
@@ -52,6 +49,7 @@ const InfoPage = () => {
 			<h2>Hi there! <img src={hi} alt="hi there" id='hiIcon'></img></h2>
 			<section>
 				<h4> Your unique ID is: {fingerprint}</h4>
+				<p> and it took you <span style={{fontWeight: 700}}>{state.timeToClickButton}</span> seconds to click on the button at the Homepage</p>
 				<p id="infoText">the whole project is about islustrationg waht information commpanies and website providers 
 						can collect about you only by the fact that you visit their website. The information shown here are readably by everyone on the web 
 						and can be used to identifiy and track you all woer the web without using cookies or other form forom analytics.<br></br>
@@ -68,53 +66,43 @@ const InfoPage = () => {
 					<div className='column'>
 						<table>
 							<thead>
-							<tr>
+							<tr key={new Date().getTime() + Math.round(Math.random() * 100)}>
 								<th>Info</th>
 								<th>Value</th>
 							</tr>
 
 							</thead>
 							<tbody>
-							{firstEntries && firstEntries.map(info => 
-							<tr>
+							{firstEntries && firstEntries.map((info, index) => 
+							<tr key={index + Math.random() * 100 + new Date().getTime() } className={index + Math.round(Math.random() * 100)}>
 								<td>{info[0]}</td>
 								<td>{info[1]}</td>
 							</tr>
 							)}
 							</tbody>
 						</table>
-
 					</div>
 
 					<div className='column'>
 						<table>
 							<thead>
-							<tr>
+							<tr key={Math.random() * 100}>
 								<th>Info</th>
 								<th>Value</th>
 							</tr>
-
 							</thead>
 							<tbody>
-
-							{secondEntries && secondEntries.map(info => 
-							<tr>
+							{secondEntries && secondEntries.map((info,index) => 
+							<tr className={index + Math.random() * 100}>
 								<td>{info[0]}</td>
 								<td>{info[1]}</td>
 							</tr>
 							)}
 							</tbody>
-					
 						</table>
-
 					</div>
 
 				</div>
-				{/* {firstEntries && firstEntries.map(info => 
-					<p>{info[0]}: {info[1]}</p>
-				)} */}
-
-				{/* {!firstEntries && <p>currently no data available</p>} */}
 			</section>
 
 			<button id="deleteBtn" onClick={() => setDeleteInfo(true)}>delete my Data</button>  

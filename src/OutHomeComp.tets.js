@@ -6,12 +6,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {backendFetcher} from '../../store/actions/backendFetcher'
 import { apiFetcher } from '../../store/actions/apiFetcher'
 
-import HomeComp from '../../components/HomeComp'
-import * as helpers from '../../utils/helpers'
-import * as fonts from '../../infoSources/fonts'
-import * as dispatchContext from '../../store/dataContext'
+import HomeComp from './components/HomeComp'
+import * as helpers from './utils/helpers'
+import * as fonts from './infoSources/fonts'
+import * as dispatchContext from './store/dataContext'
 
-import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
+import { DataDispatchCtx, DataStateCtx } from './store/dataContext'
 
 
 jest.mock('../../components/FingerprintComp', () => () => (<div>Fingerprint Comp</div>));
@@ -69,7 +69,7 @@ describe("HomeComp", () => {
 		expect(screen.queryByText(/loading.../)).toBeNull()
 	})
 
-	it('should rener loading when state loading is true and user clicks on button', async() => {
+	it('should render loading when state loading is true and user clicks on button', async() => {
 		const mockState = {
 			canvasHash: '123456',
 			loading: true

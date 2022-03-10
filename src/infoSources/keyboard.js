@@ -1,4 +1,4 @@
-const returnLayout = (keyQ, keyY, keyW) => {
+export const returnLayout = (keyQ, keyY, keyW) => {
 
 	if(keyQ === 'q' && keyY === 'y' && keyW !== 'z'){
 		return "QWERTY"
@@ -29,7 +29,7 @@ const returnLayout = (keyQ, keyY, keyW) => {
 }
 
 export const getKeyboardLayout = () => {
-	 let keyboardLayout = undefined
+	let keyboardLayout = undefined
 	if(navigator.keyboard){
 		const keyboard = navigator.keyboard
 
@@ -38,12 +38,9 @@ export const getKeyboardLayout = () => {
 			let keyY = layout.get('KeyY')
 			let keyW = layout.get('KeyW')
 		
-			let keyLayout = returnLayout(keyQ, keyY, keyW)
-			
-			return  keyLayout
+			return  returnLayout(keyQ, keyY, keyW)
 		})
-
 	}	
-	return keyboardLayout
 
+	return keyboardLayout
 }

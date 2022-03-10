@@ -1,8 +1,8 @@
 import { isChrome } from './browserInfos'
 import * as navigatorInfosHelper from "./navigatorInfos"
 import { getOS, getOSVersion } from './oSInfoHelpers'
-// const win = window
-// const nav = navigator
+
+
 const ua = navigator?.userAgent ? navigator.userAgent : '' 
 
 export const isTouchScreen = () => {
@@ -35,7 +35,6 @@ export const getLanguages = () => {
 
 export const getPlatform = () => {
 	let { platform } = window.navigator
-	//platform ist betriebssystem
 	if(isChrome()){
 	 return navigator.userAgentData.getHighEntropyValues(
 		["platform", "platformVersion"]).then(el => {
@@ -49,9 +48,8 @@ export const getPlatform = () => {
 		if(platform === "Mac" && navigatorInfosHelper.isTouchScreen()){
 				return {platform: "iPad", version: getOSVersion()}
 			}
-
-			return {platform: platform ? platform : getOS(), version: getOSVersion()}
-		}	
+		return {platform: platform ? platform : getOS(), version: getOSVersion()}
+	}	
 }
 
 export const getCPU = () => {
@@ -78,7 +76,6 @@ export const getPlugins = () => {
 	let plugins = navigator.plugins
 	let pNames = []
 
-
 	if(plugins){
 		for(let p of plugins){
 			pNames.push(p["name"])
@@ -95,16 +92,12 @@ export const getScreenResolution = (toString = false) => {
 	if(toString){
 		return `${width},${height},${depth}`
 	}
-
 	return {width, height, depth}
-	// return `${width},${height},${depth}`
 }
 
-export const getZoomLevel = () => {
-	const zoom = Math.ceil(((window.outerWidth - 10 ) / window.innerWidth) * 100);
-	// console.log(zoom, "zoom level")
-	return zoom
 
+export const getZoomLevel = () => {
+	return Math.ceil(((window.outerWidth - 10 ) / window.innerWidth) * 100);
 }
 
 

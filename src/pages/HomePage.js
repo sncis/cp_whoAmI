@@ -14,16 +14,18 @@ const HomePage = () => {
 	const [renderComp, setRenderComp] = useState([])
 	const [count, setCount] = useState(1)
 
-	useEffect(() => {
-		console.log("*********HOME PAGE**************")
-	},)
+	// useEffect(() => {
+	// 	console.log("*********HOME PAGE**************")
+	// },)
+
+
 
 	useEffect(() => {
 		if(lastVisitText){
-			// let index = Math.random(0,100)
-			console.log(count)
+			let index = Math.random() * 100
+			// console.log(count)
 			setCount(c => c +1)
-			let props ={i:count, text: lastVisitText}
+			let props ={i:count,text: lastVisitText}
 			let element = createElement(TextComp, props)
 			setRenderComp(comps => [...comps, element])
 		}
@@ -34,9 +36,8 @@ const HomePage = () => {
 		<div> 
 			<FingerPrintComp />
 			<InfoComp />
-
 			<StartBtnComp />
-			{ lastVisitText && renderComp}
+			{lastVisitText && renderComp}
 		</div>
 	)
 }

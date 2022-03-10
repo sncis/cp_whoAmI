@@ -3,7 +3,9 @@ import { filterData, filterStrings } from '../utils/helpers'
 import { getFonts } from '../infoSources/fonts'
 import { getKeyboardLayout } from '../infoSources/keyboard'
 import { getBrowser, getBrowserVersion } from './browserInfos'
-
+import { isLandscape } from './orientation'
+import { isTouchScreen } from './navigatorInfos'
+import { getBluetoothEnabled } from './blueThooth'
 
 // export const displayInfos = async() => {
 
@@ -31,7 +33,6 @@ import { getBrowser, getBrowserVersion } from './browserInfos'
 
 
 export const displayInfos = async() => {
-
 	let infos = {
 		connectionType: NAV_INFOS.getConnectionType(),
 		vendor: NAV_INFOS.getVendor(),
@@ -47,8 +48,11 @@ export const displayInfos = async() => {
 		browserVersion: await getBrowserVersion(),
 		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 		screenResolution: NAV_INFOS.getScreenResolution(true),
-		zoomLevel: NAV_INFOS.getZoomLevel()
-
+		zoomLevel: NAV_INFOS.getZoomLevel(),
+		deviceOrientation: isLandscape(),
+		isTouchscreen: isTouchScreen() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
+		bluetoothEnbaled : getBluetoothEnabled() ? 'Bluetooth available' : 'Bluetooth not available',
+		// googlePay : await googlePayment()
 	}
 
 	return filterData(infos)

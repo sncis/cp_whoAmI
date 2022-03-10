@@ -26,7 +26,7 @@ h2{
   /* This centers our sketch vertically. */
   align-items: center;
   margin-top: 100px;
-  border: 1px solid green; 
+  /* border: 1px solid green;  */
  }  
 
 #infoText{
@@ -45,15 +45,20 @@ h2{
 	background-color:aquamarine;
   border: 0px;
   border-radius: 5px;
-  margin-top: 70px
-
+  margin: 70px 0px 50px 0px
+}
+.typed-text-container{
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .typed-text{
   text-align:left;
   width: 70%;
-  margin-left:1rem;
+  /* margin-left:1rem; */
   line-height: 1.5;
+  text-align:center;
 }
 
 .blinking-cursor:after {
@@ -96,7 +101,8 @@ h2{
 
 .navContainer{
   position:relative;
-  margin: 10px
+  margin: 10px;
+  height:1rem
 }
 
 .navigation{ 
@@ -104,17 +110,15 @@ h2{
   position: fixed;
   top:10px;
   color: black;
-  font-size:medium;
+  font-size:1rem;
   text-underline-offset: 2px;
   background-color:white;
 }
 .backHome{
-
   left:10px; 
 }
 
 .moreInf{
-  
   right:10px;
 }
 

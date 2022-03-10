@@ -1,37 +1,36 @@
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import { mount } from 'enzyme'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 import InfoComp from '../../components/InfoComp'
-// import * as fetcher from '../../store/actions/fetchActions'
-// import { fetchIpInfos } from "../../store/actions/fetchActions"
-// import { systemInfos } from '../../infoSources/systemInfos'
 
 jest.mock('../../store/actions/fetchActions', () => ({
 	fetchIpInfos: () => Promise.resolve({ fetchInfos: "some ip info", fetchIPInfos: "some other info"})
 }))
+
 jest.mock('../../infoSources/systemInfos', () => ({
-	systemInfos: () => Promise.resolve({infos: "some system info"})
+	displayInfos: () => Promise.resolve({infos: "some system info"}),
+	getDrawVariables: () => Promise.resolve({drawInfos: "some drawIndos info"})
 }))
 
 
 
-// jest.mock('../../store/actions/fetchActions')
- 
-// jest.mock('../../infoSources/systemInfos')
-
-
-const renderComp = (state,dispatch) => {
-	return render(
-		<DataDispatchCtx.Provider value={dispatch}>
-			<DataStateCtx.Provider value ={state}>
-				<InfoComp />
-			</DataStateCtx.Provider>
-		</DataDispatchCtx.Provider>
-	)}
+// const renderComp = (state,dispatch) => {
+// 	return render(
+// 		<DataDispatchCtx.Provider value={dispatch}>
+// 			<DataStateCtx.Provider value ={state}>
+// 				<InfoComp />
+// 			</DataStateCtx.Provider>
+// 		</DataDispatchCtx.Provider>
+// 	)}
 
 
 describe("InfoComp",() => {
+	
+	// beforeEach(() => {
+	// 	jest.resetAllMocks()
+	// })
+
 	it('should call disptach function 3 times with right arguements', async() => {
 		const mockState= {}
 		const mockDispatch = jest.fn()
@@ -42,7 +41,6 @@ describe("InfoComp",() => {
 			"payload": false, "type": "SET_LOADING"
 		}
 
-	
 
 	 await act(async() => {
 	 mount(
@@ -51,15 +49,10 @@ describe("InfoComp",() => {
 					<InfoComp />
 				</DataStateCtx.Provider>
 			</DataDispatchCtx.Provider>
-		)
-
-	// })	renderComp(mockState, mockDispatch)
-
-		
+		)		
 	})
 
 	expect(mockDispatch).toHaveBeenCalledWith(action)
 	
 	})
-
 })

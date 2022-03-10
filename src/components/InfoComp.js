@@ -5,13 +5,13 @@ import { SET_IPINFOS, SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '.
 import { systemInfos, infosWithDescription, displayInfos, getDrawVariables } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { fetchIpInfos } from '../store/actions/fetchActions'
-
+import { useDevicemotionEffect } from '../effects/deviceMotionEffect'
 
 const InfoComp = () => {
 	const dispatch = useDataDispatchCtx()
 
 	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
-
+	const {motion} = useDevicemotionEffect()
 //fetch the ip infos from backend and get isp infos etc
 	// const fetchIpInfos = useCallback(async() => {
 	// 	let options = { url:'/test/ip', method:'get'}
@@ -35,12 +35,12 @@ const InfoComp = () => {
 		})
 
 		let ipInfos = await fetchIpInfos()
-		let systemInfos = await displayInfos()
+		let sysInfos = await displayInfos()
 		let drawVariables = await getDrawVariables()
 		// let getSystemInfos = await infosWithDescription()
 
 
-		let data = {...ipInfos, ...systemInfos, batteryLevel,charging,chargingTime,dischargingTime}
+		let data = {...ipInfos, ...sysInfos, batteryLevel,charging,chargingTime,dischargingTime}
 		// console.log(data)
 		dispatch({
 			type: SET_DISPLAYINFOS,
@@ -60,7 +60,10 @@ const InfoComp = () => {
 
 	useEffect(() => {
 		collectInfos()
-	},[collectInfos])
+		console.log("motion")
+		console.log(motion)
+
+	},[collectInfos, motion])
 
 	return null
 
