@@ -48,7 +48,8 @@ export const dataReducer= (state, {type, payload}) => {
 	case 'SET_POINTER':
 		return {
 			...state,
-			displayInfos: {...state.displayInfos, payload}
+			pointer: payload,
+			displayInfos: {...state.displayInfos, pointer: payload}
 		}
 	case  'SET_TIMETOCLICKBUTTON':
 		console.log('button was clicked after', payload)

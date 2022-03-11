@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage"
 import { DataStateProvider } from './store/dataContext'
 import CanvasPage from "./pages/CanvasPage"
-import InfoPage from './pages/InfoPage'
+import AboutPage from './pages/AboutPage'
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           {/* <Route path='/' element={<HomeComp />} /> */}
           <Route path='/' element={<HomePage />} />
           <Route path='/sketch' element={<CanvasPage />} />
-          <Route path='/about' element={<InfoPage />} />
+          <Route path='/about' element={<AboutPage />} />
         </Routes>
         </BrowserRouter>
       </DataStateProvider>

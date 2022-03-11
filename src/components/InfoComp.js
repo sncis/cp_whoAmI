@@ -6,27 +6,14 @@ import { systemInfos, infosWithDescription, displayInfos, getDrawVariables } fro
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { fetchIpInfos } from '../store/actions/fetchActions'
 import { useDevicemotionEffect } from '../effects/deviceMotionEffect'
+import { filterData ,filterIPInfos} from '../utils/helpers'
+
 
 const InfoComp = () => {
 	const dispatch = useDataDispatchCtx()
 
 	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
 	const {motion} = useDevicemotionEffect()
-//fetch the ip infos from backend and get isp infos etc
-	// const fetchIpInfos = useCallback(async() => {
-	// 	let options = { url:'/test/ip', method:'get'}
-	// 	let resp = await backendFetcher(options)
-
-	// 	if(resp){
-	// 		dispatch({
-	// 			type: SET_IPINFOS,
-	// 			payload: resp.data 
-	// 		})
-	// 		return resp.data 
-	// 	}
-	// 	return {}
-	
-	// },[dispatch])
 
 	const collectInfos = useCallback(async() => {
 		dispatch({
@@ -34,14 +21,16 @@ const InfoComp = () => {
 			payload: true
 		})
 
-		let ipInfos = await fetchIpInfos()
+		let ipInfos = filterIPInfos(await fetchIpInfos())
 		let sysInfos = await displayInfos()
-		let drawVariables = await getDrawVariables()
-		// let getSystemInfos = await infosWithDescription()
+		let drawVariables =  getDrawVariables()
+		
 
-
-		let data = {...ipInfos, ...sysInfos, batteryLevel,charging,chargingTime,dischargingTime}
-		// console.log(data)
+		let d = {...ipInfos,...sysInfos, batteryLevel,charging,chargingTime,dischargingTime}
+		
+		let data = filterData(d)
+		console.log('filtered data', data)
+		
 		dispatch({
 			type: SET_DISPLAYINFOS,
 			payload: data

@@ -1,114 +1,283 @@
 import port from '../img/port.jpeg'
+import {Particle} from './Particle'
 import { getBrowser } from '../infoSources/browserInfos'
-import { SET_ERROR } from '../store/constants'
+import { wait } from '../utils/helpers'
 
 
-export const sketch = (p5)=> {
+
+export const sketch = (p5) => {
 	p5.state = {}
 	p5.dispatch = () => {}
 
-	const width = window.innerWidth -200
-	// let height
-	let infos
-	let img
-	let pixelSpots = []
+	const width = window.innerWidth
+	let height
+	let portImg
+	let particles = []
+	let spots = []
+	let infos =[]
+	let canvas
+	let infoPoints = []
+	let drawParticles = false
+	let duration = 1000
+	let startTime
+	let startValue
+	let drawStart = false
+	let drawVars = []
 
+	
+// select image based on browser
 	const selectImg = (browser) => {
 		switch(browser){
-			case "chrome":
-				return port
-			case 'firefox':
-				return port
-			case 'safari': 
-				return port
-			default: 
+			case'chrome':
+				return port;
+			case ' firefox':
+				return true;
+			case 'safari':
+				return true
+			default:
 				return port
 		}
 	}
 
+	const createNewParticle = () => {
+		let index = Math.floor(p5.random(0, spots.length))
+		let spot = spots[index]
+		let x = spot.x
+		let y = spot.y
+		let color = spot.col
+		let valid = true
 
-	p5.preload = () => {
-		try{
-			const browser = getBrowser()
-			const image = selectImg(browser)
-			console.log(browser, image)
-
-			img = p5.loadImage(image, i => {
-				img = i
-				img.resize(0, window.innerHeight/1.5)
-				console.log(img)
-			})
+		for(let p of particles){
+			let dist = p5.dist(x,y,(p.x + p.getTextWidth()),(p.y + 15))
+			let pWidth = (p.radius * 2) * p5.state.drawVariables.deviceMemory
 			
-		}catch(error){
-			console.log("error in try block")
-
-			console.log(error)
-			p5.dispatch({
-				type: SET_ERROR,
-				payload: 'Error in preaload up the sketch'
-			})
+			if(dist < pWidth){
+			// if(dist < pWidth && p.getColor() !== spot.col){
+				valid = false
+				break
+			}
 		}
-		
+
+		if(valid){
+			return new Particle(p5, x, y, color,p5.state.drawVariables)
+			// let info = infos.shift()
+			// return info !== undefined ? new Particle(p5, x, y, color,p5.state.drawVariables, info) : new Particle(p5, x, y, color,p5.state.drawVariables)
+		}else{
+			return null
+		}
 	}
 
+
+
+	const checkPoint = (point) => {
+		if(infoPoints.length > 0){
+			for(let p of infoPoints){
+				// infoPoints.forEach((p) => {
+					// console.log(p)
+					// console.log(point)
+
+					// let dist = p5.dist(point.getX(), point.getY(), p.getX(), p.getY())
+					// if(dist < point.getTextWidth()+ p.getTextWidth() + (p.radius * 2) + (point.radius * 2) + 100){
+					// 	return false
+
+					// }
+					// return true
+
+
+				// })
+
+				
+					// console.log(p)
+					// let dist = p5.dist(point.getX(), point.getY(), p.getX(), p.getY())
+					// console.log('something to loop', p)
+					
+					// if(dist < point.getTextWidth()+ p.getTextWidth() + (p.radius * 2) + (point.radius * 2) + 100){
+					// 	// break
+					// 	return false
+					// }
+					return true
+				
+				}
+			// 	console.log(p)
+			
+			// 	let dist = p5.dist(point.getX(), point.getY(), p.getX(), p.getY())
+			// 	console.log('dist', dist)
+			// 	if(dist < p.getTextWidth() + 100){
+			// 		// break
+			// 		return false
+			// 	}
+			// 	return true
+			// }
+		}
+		else if(infoPoints.length === 0){
+			return true
+		}
+	}
+
+
+	const createInfoPoints = () => {
+		let index = Math.floor(p5.random(0, particles.length))
+
+		let p = particles[index]
+
+		let valid = checkPoint(p)
+		if(valid){
+			p.setInfo(infos.shift())
+			// console.log(p.getInfo())
+			infoPoints.push(p)
+		}
+	}
+
+
+	const createPoints = () => {
+		// let total = 6000
+		
+		let total = p5.state.drawVariables.screenResolution?.width || 1000
+		let count = 0
+
+		while(count < total){
+			let particle = createNewParticle()
+			if(particle){
+				particles.push(particle)
+				count ++
+			}
+			
+			if(count >= total){
+				drawParticles = true
+				startTime = p5.millis()
+				while(infos.length > 0){
+					// console.log('info linegh', infos)
+					createInfoPoints()
+					if(!infos){
+						// console.log('info points done')
+						break
+					}
+					// break
+				}
+				// if(!infos){
+				// 	console.log('info points done')
+				// 	break
+				// }
+
+				// infoPoints = particles.filter( p => p.getInfo() !== undefined)
+				// break
+			}
+		}
+	}
+
+	/*  p5 functions */
+	p5.preload = () => {
+		const browser = getBrowser()
+		let image = selectImg(browser)
+
+		portImg = p5.loadImage(image, img => {
+			portImg = img
+			portImg.resize(0, window.innerHeight/1.5)
+			height = portImg.height
+		})
+	}
 
 	p5.setup = async() => {
-		try{
-			await p5.state.displayInfos
-			infos = Object.values(p5.state.displayInfos)
+		await p5.state.displayInfos
+		await p5.state.drawVariables
+		console.log('displaInfos in sketch ', p5.state.displayInfos)
+		
+		infos = Object.values(p5.state.displayInfos)
 
-			console.log(infos)
-			for(let i of infos){
-				console.log(i)
+		canvas = p5.createCanvas(width, height + 50)
+
+		portImg.loadPixels()
+	
+		for(let x = 0; x < portImg.width; x++){
+			for(let y = 0; y < portImg.height; y++){
+				if(x === portImg.width - 1 && y === portImg.height - 1){
+					createPoints()
+				}
+				let index = (x + y * portImg.width) * 4
+				let col = portImg.pixels[index]
+				let r = portImg.pixels[index]
+				let g = portImg.pixels[index +1]
+				let b = portImg.pixels[index+ 2]
+				let color = portImg.get(x,y)
+				let c = r + g + b
+			
+				if( c < 750){
+					spots.push({x: x, y:y, col: color})
+				}
 			}
+		}
+	}
 
 
-			p5.createCanvas(width, window.innerHeight -100)
-			
-			img.loadPixels()
-			
-			for(let x = 0; x < img.width; x ++){
-				for(let y = 0; y< img.height; y++){
-					if(x === img.width -1 && y === img.height -1){
-						console.log("done")
+
+	p5.draw = async() => {	
+		p5.translate(width / 2 - (width / 4), 10);
+
+		if(drawParticles){
+			let p = infoPoints.shift()
+			if(p !== undefined){
+				while(p.isGrowing()){
+					p5.frameRate(0.7)
+					p.grow()
+					await wait(100)
+					p.show()
+
+					if(p.edges()){
+						p.showInfo()
+						p.setGrowing(false)
+						break
 					}
 
-					let index = (x + y * img.width) * 4
+					for(let otherP of particles){
+						if(p !== otherP){
+							let dist = p5.dist(p.getX(), p.getY(), otherP.getX(), otherP.getY())
 
-					let color = img.pixels[index]
-
-					if(color < 230){
-						pixelSpots.push(p5.createVector(x,y))
+							if(dist < p.getRadius() *  2  + otherP.getRadius() * 2){
+								p.showInfo()
+								p.setGrowing(false)
+								break
+							}
+						}
 					}
 				}
 			}
-
-		}catch(error){
-			console.log(error)
 		
-			p5.dispatch({
-				type: SET_ERROR,
-				payload: 'Error in setting up the sketch'
-			})
+			
+			// 	if(p === undefined){
+			// 		console.log("no p anymore")
+			// 		drawStart = true
+			// 	}
+			// }
+
+
+		// if(drawStart)	{
+		// 	// console.log("draw start is ok")
+		// 	p5.frameRate(10)
+
+		// 	for(let p of particles){
+		// 		if(p.getInfo() !== undefined){
+		// 			continue
+		// 		}
+
+		// 		if(p.isGrowing()){
+		// 			if(p.edges()){
+		// 				p.setGrowing(false)
+		// 			}else{
+		// 				for(let otherP of particles){
+		// 					if( p !== otherP){
+		// 						let dist = p5.dist(p.getX(), p.getY(), otherP.getX() , otherP.getY())
+		// 						if(dist  < p.getRadius() + otherP.getRadius()){
+		// 							p.setGrowing(false)
+		// 							break
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 		p.grow()
+		// 		p.show()			
+		// 	}
+		// }
 		}
-		
-	
 	}
-
-	p5.draw = () => {
-		p5.background(255)
-		p5.fill(0)
-		p5.ellipse(100,100,50)
-		if(infos){
-			for(let [i,v] of Object.entries(infos)) {
-				// console.log(v)
-				let x = 100 + i * 10
-				let y = 50 + i* 10
-				p5.ellipse(x,y,10)
-				p5.text(v,x,y + 15)
-			}
-		}
-		
-	}
-
 }

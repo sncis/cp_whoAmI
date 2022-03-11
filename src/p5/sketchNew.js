@@ -180,10 +180,11 @@ export const sketchNew = (p5) => {
 	p5.setup = async() => {
 		await p5.state.displayInfos
 		await p5.state.drawVariables
-		// console.log(p5.state.displayInfos)
+		console.log('displaInfos in sketch ', p5.state.displayInfos)
 		
 		infos = Object.values(p5.state.displayInfos)
-		
+
+
 		canvas = p5.createCanvas(width, height + 50)
 	
 
@@ -220,6 +221,7 @@ export const sketchNew = (p5) => {
 
 	p5.draw = async() => {
 		// p5.rectMode(p5.CENTER)
+	
 		p5.translate(width / 2 - (width / 4), 10);
 
 		
@@ -227,7 +229,6 @@ export const sketchNew = (p5) => {
 			progress = (p5.millis() - startTime) / duration 
 			if(progress >= 2){
 				let p = infoPoints.shift()
-				// console.log(p)
 				
 				if(p !== undefined){
 					while(p.isGrowing()){
@@ -235,7 +236,7 @@ export const sketchNew = (p5) => {
 						p.grow()
 						await wait(100)
 						p.show()
-
+					
 						if(p.edges()){
 							p.showInfo()
 							p.setGrowing(false)

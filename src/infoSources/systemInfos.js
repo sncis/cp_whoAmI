@@ -7,30 +7,6 @@ import { isLandscape } from './orientation'
 import { isTouchScreen } from './navigatorInfos'
 import { getBluetoothEnabled } from './blueThooth'
 
-// export const displayInfos = async() => {
-
-// 	let infos = {
-// 		'Connection type': NAV_INFOS.getConnectionType(),
-// 		'Browser Vendor': NAV_INFOS.getVendor(),
-// 		'Language': NAV_INFOS.getLanguage(),
-// 		'Paltform': Object.values(await NAV_INFOS.getPlatform()),
-// 		'Device memory': NAV_INFOS.getDeviceMemeory(),
-// 		'CPU' : NAV_INFOS.getCPU(),
-// 		'Installed Fonts' : getFonts().length,
-// 		'Plugins': NAV_INFOS.getPlugins(),
-// 		'PDFViewer enabled' : NAV_INFOS.getPdfViewerEnabled().toString(), 
-// 		'Cookies enabled': NAV_INFOS.getCookisEnabled(),
-// 		'Keyboard layout': await getKeyboardLayout(),
-// 		'Browser': getBrowser(),
-// 		'Browser Version': getBrowserVersion(),
-// 		'Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-// 		'Screen resolution': NAV_INFOS.getScreenResolution(),
-// 		'Zoom level': NAV_INFOS.getZoomLevel()
-// 	}
-
-// 	return filterData(infos)
-// }
-
 
 export const displayInfos = async() => {
 	let infos = {
@@ -42,17 +18,15 @@ export const displayInfos = async() => {
 		cpu : NAV_INFOS.getCPU(),
 		fonts : getFonts().length,
 		plugins: NAV_INFOS.getPlugins(),
-		// getPDFViewer : NAV_INFOS.getPdfViewerEnabled().toString(), 
 		keyLayout: await getKeyboardLayout(),
 		browser: getBrowser(),
 		browserVersion: await getBrowserVersion(),
 		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 		screenResolution: NAV_INFOS.getScreenResolution(true),
 		zoomLevel: NAV_INFOS.getZoomLevel(),
-		deviceOrientation: isLandscape(),
-		isTouchscreen: isTouchScreen() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
-		bluetoothEnbaled : getBluetoothEnabled() ? 'Bluetooth available' : 'Bluetooth not available',
-		// googlePay : await googlePayment()
+		deviceOrientation: isLandscape() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
+		isTouchscreen: isTouchScreen() ? 'Device is a touch device' : 'Device is not a touch device',
+		bluetoothEnbaled : getBluetoothEnabled() ? 'Bluetooth accessable' : 'Bluetooth not accessable',
 	}
 
 	return filterData(infos)
@@ -60,7 +34,7 @@ export const displayInfos = async() => {
 
 export const getDrawVariables = async() => {
 	let infos = {
-		platformVersion:Object.values(await NAV_INFOS.getPlatform())[1],
+		platformVersion: Object.values(await NAV_INFOS.getPlatform())[1],
 		deviceMemory: NAV_INFOS.getDeviceMemeory(),
 		cpu: NAV_INFOS.getCPU(),
 		fonts : getFonts().length,
@@ -69,28 +43,33 @@ export const getDrawVariables = async() => {
 		screenResolution: NAV_INFOS.getScreenResolution(),
 		zoomLevel: NAV_INFOS.getZoomLevel()
 	}
-	return infos
+	return filterData(infos)
 }
 
-export const systemInfos = async() => {
-
+//infos to show in Info Apge to tell user what I can get from him 
+export const getSystemInfos = async() => {
+	let screenResolution = NAV_INFOS.getScreenResolution()
 	let infos = {
-		connectionType: NAV_INFOS.getConnectionType(),
-		vendor: NAV_INFOS.getVendor(),
-		language: NAV_INFOS.getLanguage(),
-		paltform: Object.values(await NAV_INFOS.getPlatform()),
-		deviceMemory: NAV_INFOS.getDeviceMemeory(),
-		cpu : NAV_INFOS.getCPU(),
-		fonts : getFonts().length,
-		plugins: NAV_INFOS.getPlugins(),
-		getPDFViewer : NAV_INFOS.getPdfViewerEnabled()?.toString(), 
-		keyLayout: await getKeyboardLayout(),
-		browser: getBrowser(),
-		browserVersion: getBrowserVersion(),
-		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-		screenResolution: NAV_INFOS.getScreenResolution(),
-		zoomLevel: NAV_INFOS.getZoomLevel()
-
+		"Connection Type": NAV_INFOS.getConnectionType(),
+		"Vendor": NAV_INFOS.getVendor(),
+		"Language": NAV_INFOS.getLanguage(),
+		"Languages": NAV_INFOS.getLanguages(),
+		"Platform": Object.values(await NAV_INFOS.getPlatform()),
+		"Device Memory": NAV_INFOS.getDeviceMemeory(),
+		"Available CPU" : NAV_INFOS.getCPU(),
+		"Installed Fonts" : getFonts().length,
+		"Plugins": NAV_INFOS.getPlugins(),
+		"Keyboard Layout": await getKeyboardLayout(),
+		"Browser": getBrowser(),
+		"Browser Version": await getBrowserVersion(),
+		"Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
+		"Browser Zoom Level": NAV_INFOS.getZoomLevel(),
+		"Device Orientation": isLandscape() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
+		"Touchscreen": isTouchScreen() ? 'Device is a touch device' : 'Device is not a touch device',
+		"Bluetooth" : getBluetoothEnabled() ? 'Bluetooth available' : 'Bluetooth not available',
+		"PDF Viewer enabled": NAV_INFOS.getPdfViewerEnabled() ? "Yes" : "No",
+		"Cookies enabled": NAV_INFOS.getCookisEnabled() ? 'YES' : 'NO',
+		"Screen Resolution": `Width: ${screenResolution.width}, Height: ${screenResolution.height}, Depth: ${screenResolution.depth} `
 	}
 
 	return filterData(infos)

@@ -6,7 +6,11 @@ export function Particle(p5,x,y, color, drawVars, info = undefined){
 	this.growing = true
 	this.color = color
 	this.drawVars = drawVars
-	this.radius = Math.round((this.drawVars.zoomLevel / this.drawVars.cpu) / this.drawVars.fonts)
+	this.zoomLevel = drawVars.zoomLevel ? drawVars.zoomLevel : 100
+	this.cpu = drawVars.cpu ? drawVars.cpu : 2
+	this.fonts = drawVars.fonts ? drawVars.fonts : 20
+	this.radius = Math.round(this.zoomLevel / this.fonts)
+	this.deviceMemory = drawVars.deviceMemory ? drawVars.deviceMemory : 8
 	this.textWidth = p5.textWidth(info)
 
 	this.getX = () => {
@@ -40,7 +44,6 @@ export function Particle(p5,x,y, color, drawVars, info = undefined){
 	}
 
 	this.getTextWidth = () => {
-		// console.log(Math.floor(this.textWidth))
 		return Math.floor(this.textWidth)
 	}
 	this.grow = () => {
@@ -57,8 +60,8 @@ export function Particle(p5,x,y, color, drawVars, info = undefined){
 		p5.noStroke()
 		p5.textAlign(p5.CENTER)
 		p5.fill(0)
-		// p5.textWrap(p5.WORD)
-		p5.text(this.info, this.x, (this.y + this.radius + (this.drawVars.cpu + this.drawVars.deviceMemory)))
+		let decal = this.fonts/this.deviceMemory < 15 ? 15 : this.fonts/this.deviceMemory
+		p5.text(this.info, this.x, (this.y + this.radius + decal))
 	}
 
 	this.show = () => {

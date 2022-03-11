@@ -2,36 +2,34 @@ import { useState, useEffect } from 'react'
 
 export const useBatteryStatusEffect = () => {
 
-	const [batteryLevel, setBatteryLevel]  = useState('')
-	const [charging, setCharging] = useState('')
-	const [dischargingTime, setDischargingTime] = useState('')
-	const [chargingTime, setChargingTime] = useState('')
+	const [batteryLevel, setBatteryLevel]  = useState(undefined)
+	const [charging, setCharging] = useState(undefined)
+	const [dischargingTime, setDischargingTime] = useState(undefined)
+	const [chargingTime, setChargingTime] = useState(undefined)
 
 
 function updateBattery(bat){
 	setBatteryLevel(Math.floor(bat.level * 100))
-	setCharging(bat.charging ? `Device is chargin` : 'Device is not chargin')
-	setChargingTime(`Remaining chargin time: ${bat.chargingTime}`)
-	setDischargingTime(`Remaining discharging time: ${bat.dischargingTime / 60}` ) // minutes => if more then 60 devide /60 to get hours
+	setCharging(bat.charging)
+	setChargingTime(bat.chargingTime)
+	setDischargingTime(bat.dischargingTime /60) 
 }
 	useEffect(() => {	
 		const isChrome = navigator.userAgent.indexOf('Chrome') > -1 ? true : false
 		if(isChrome){
 			navigator.getBattery().then((battery) => {
+				
 				updateBattery(battery)
 
 				battery.onchargingchange = () => {
 					updateBattery(battery)
-
 				}
 				battery.onlevelchange = () => {
 					updateBattery(battery)
-
 				}
 
 				battery.ondischargingtimechange = () => {
 					updateBattery(battery)
-
 				}
 
 				battery.onchargingtimechange = () => {

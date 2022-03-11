@@ -6,17 +6,20 @@ import { useDataStateCtx } from '../store/dataContext'
 import { useNavigate } from 'react-router-dom'
 import NavigationComp from '../components/NavigationComp'
 
+import { getSystemInfos } from '../infoSources/systemInfos'
+import { useBatteryStatusEffect } from '../effects/batteryEffect'
+
 
 const InfoPage = () => {
 
-	const [deleteInfos, setDeleteInfo] = useState(false)
-	const {fingerprint, displayInfos} = useDataStateCtx()
+	const {fingerprint} = useDataStateCtx()
 	const state = useDataStateCtx()
-
+	const [sysInfos, setSysInfos] = useState(null)
+	const [deleteInfos, setDeleteInfo] = useState(false)
 	const [firstEntries, setFirstEntries]=useState([])
 	const [secondEntries, setSecondEntries]=useState([])
-
 	const navigate = useNavigate()
+	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
 
 
 	useEffect(() => {
@@ -27,20 +30,27 @@ const InfoPage = () => {
 		}
 	},[deleteInfos, fingerprint, navigate])
 
-	useEffect(()=> {
-		console.log("state in info page")
-		console.log(fingerprint, displayInfos)
-		if(displayInfos){
-			let entries = Object.entries(displayInfos)
+
+	useEffect(() => {
+		const getSysInfos = async() => {
+			let infos = await getSystemInfos()
+		
+			setSysInfos(infos)
+		}
+		getSysInfos()
+		
+		if(sysInfos){
+			let infos = { ...sysInfos,'Pointer': state.pointer, 'Battery Level': batteryLevel, 'Battery is charging': charging?.toString(), 'Battery charging time': chargingTime, 'Battery discharging time': dischargingTime }
+			
+			let entries = batteryLevel !== undefined ? Object.entries(infos) : Object.entries(sysInfos)
+			// console.log(entries)
 			let middle = entries.length / 2
 			let length = entries.length
 
-
-			setFirstEntries(Object.entries(displayInfos).slice(0,middle))
-			setSecondEntries(Object.entries(displayInfos).slice(middle, length - 1))
+			setFirstEntries(Object.entries(infos).slice(0,middle))
+			setSecondEntries(Object.entries(infos).slice(middle, length - 1))
 		}
-		
-	},[fingerprint, displayInfos])
+	},[sysInfos, batteryLevel,charging,chargingTime,dischargingTime, state.pointer])
 
 
 	return(

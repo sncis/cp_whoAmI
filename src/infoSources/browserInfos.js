@@ -43,7 +43,7 @@ export const getBrowser = () => {
 	return 'Safari Mobile'
 	}
 	else{
-		return 'unknown browser'
+		return 'unknown Browser'
 	}
 }
 

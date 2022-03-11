@@ -47,10 +47,10 @@ const getLastVisit = (entries) => {
 
 //getting fingerprint infos from bakcend (if user has already visited teh website)
 export const getFingerprintInfos = async(id) => {
-	let options = { url:`/fingerprint?id=${id}`, method: 'get'}
+	// let options = { url:`/fingerprint?id=${id}`, method: 'get'}
 	
 	try{
-		let resp = await backendFetcher(options)
+		// let resp = await backendFetcher(options)
 		// console.log("fingerPrint entries from db")
 		// const lastVisited = getLastVisits(resp.data)
 		const lastVisited = getLastVisit(entriesTest)

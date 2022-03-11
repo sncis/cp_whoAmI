@@ -1,6 +1,6 @@
 import React, {useRef, useEffect, useState, useCallback } from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
-import { systemInfos } from '../infoSources/systemInfos'
+import { getSystemInfos } from '../infoSources/systemInfos'
 import { hashFunction } from '../utils/hash'
 import { drawCanvasFingerPrint } from '../utils/fingerprintDraw'
 import { deletData, storeFingerprint, getFingerprintInfos,storeIPInfos } from '../store/actions/fingerPrintActions'
@@ -46,7 +46,7 @@ const FingerprintComp = () => {
 
 // create fingerprinting string
 const createFingerPrintString = useCallback(async()=> {
-	let systemInf = await systemInfos()
+	let systemInf = await getSystemInfos()
 	let canvasHash = await draw()
 
 	let systemString = Object.values(systemInf).join('').replace(/[\s,-.—]/g, '')
