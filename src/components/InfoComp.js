@@ -1,19 +1,16 @@
-import React, {useEffect, useCallback} from 'react'
+import {useEffect, useCallback} from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
-import { backendFetcher } from '../utils/apiHelpers/backendFetcher'
-import { SET_IPINFOS, SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '../store/constants'
-import { systemInfos, infosWithDescription, displayInfos, getDrawVariables } from '../infoSources/systemInfos'
+import {  SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '../store/constants'
+import { displayInfos, getDrawVariables } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
-import { fetchIpInfos } from '../store/actions/fetchActions'
-import { useDevicemotionEffect } from '../effects/deviceMotionEffect'
-import { filterData ,filterIPInfos} from '../utils/helpers'
+import { fetchIpInfos } from '../store/actions/ipInfosFetcher'
+import { filterData ,filterIPInfos} from '../utils/filterHelpers'
 
 
 const InfoComp = () => {
 	const dispatch = useDataDispatchCtx()
 
 	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
-	const {motion} = useDevicemotionEffect()
 
 	const collectInfos = useCallback(async() => {
 		dispatch({
@@ -21,7 +18,8 @@ const InfoComp = () => {
 			payload: true
 		})
 
-		let ipInfos = filterIPInfos(await fetchIpInfos())
+		let resp = await fetchIpInfos()
+		let ipInfos = resp.data ? filterIPInfos(resp.data) : undefined
 		let sysInfos = await displayInfos()
 		let drawVariables =  getDrawVariables()
 		
@@ -29,7 +27,7 @@ const InfoComp = () => {
 		let d = {...ipInfos,...sysInfos, batteryLevel,charging,chargingTime,dischargingTime}
 		
 		let data = filterData(d)
-		console.log('filtered data', data)
+		// console.log('filtered data', data)
 		
 		dispatch({
 			type: SET_DISPLAYINFOS,
@@ -49,10 +47,7 @@ const InfoComp = () => {
 
 	useEffect(() => {
 		collectInfos()
-		console.log("motion")
-		console.log(motion)
-
-	},[collectInfos, motion])
+	},[collectInfos])
 
 	return null
 

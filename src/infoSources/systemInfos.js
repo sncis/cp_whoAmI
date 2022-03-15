@@ -1,5 +1,5 @@
 import * as NAV_INFOS from '../infoSources/navigatorInfos'
-import { filterData, filterStrings } from '../utils/helpers'
+import { filterData } from '../utils/filterHelpers'
 import { getFonts } from '../infoSources/fonts'
 import { getKeyboardLayout } from '../infoSources/keyboard'
 import { getBrowser, getBrowserVersion } from './browserInfos'
@@ -8,6 +8,8 @@ import { isTouchScreen } from './navigatorInfos'
 import { getBluetoothEnabled } from './blueThooth'
 
 
+
+//infos which are displayed to user in sketch 
 export const displayInfos = async() => {
 	let infos = {
 		connectionType: NAV_INFOS.getConnectionType(),
@@ -26,12 +28,13 @@ export const displayInfos = async() => {
 		zoomLevel: NAV_INFOS.getZoomLevel(),
 		deviceOrientation: isLandscape() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
 		isTouchscreen: isTouchScreen() ? 'Device is a touch device' : 'Device is not a touch device',
-		bluetoothEnbaled : getBluetoothEnabled() ? 'Bluetooth accessable' : 'Bluetooth not accessable',
+		bluetoothEnbaled : await getBluetoothEnabled() ? 'Bluetooth accessable' : 'Bluetooth not accessable',
 	}
 
 	return filterData(infos)
 }
 
+//infos which are used for drawing settings
 export const getDrawVariables = async() => {
 	let infos = {
 		platformVersion: Object.values(await NAV_INFOS.getPlatform())[1],
@@ -66,41 +69,40 @@ export const getSystemInfos = async() => {
 		"Browser Zoom Level": NAV_INFOS.getZoomLevel(),
 		"Device Orientation": isLandscape() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
 		"Touchscreen": isTouchScreen() ? 'Device is a touch device' : 'Device is not a touch device',
-		"Bluetooth" : getBluetoothEnabled() ? 'Bluetooth available' : 'Bluetooth not available',
+		"Bluetooth" : await getBluetoothEnabled() ? 'Bluetooth available' : 'Bluetooth not available',
 		"PDF Viewer enabled": NAV_INFOS.getPdfViewerEnabled() ? "Yes" : "No",
 		"Cookies enabled": NAV_INFOS.getCookisEnabled() ? 'YES' : 'NO',
-		"Screen Resolution": `Width: ${screenResolution.width}, Height: ${screenResolution.height}, Depth: ${screenResolution.depth} `
+		"Screen Resolution": `Width: ${screenResolution.width}, Height: ${screenResolution.height}, Depth: ${screenResolution.depth}`,
+		"Browser Permissions": NAV_INFOS.getPermissions()
 	}
 
 	return filterData(infos)
 }
 
-export const infosWithDescription = async() => {
-	let infos = {
-		connectionType: `Your have a ${NAV_INFOS.getConnectionType()} connection`,
-		vendor: `Your Browser is from ${NAV_INFOS.getVendor()}`,
-		language: `Your prefered langage is ${NAV_INFOS.getLanguage()}`,
-		paltform: `You use ${NAV_INFOS.getPlatform().platform}`,
-		deviceMemory: `Your device has ${NAV_INFOS.getDeviceMemeory()} GB of memeory`,
-		cpu : `You have at least ${NAV_INFOS.getCPU()} logical processors available`,
-		fonts : `You have ${getFonts().length} fonts installed`,
-		plugins:`You installed plugins are: ${NAV_INFOS.getPlugins()}`,
-		isTouch: NAV_INFOS.isTouchScreen() ? "You have a touch screen" : "You don't have a touch screen",
-		keyLayout: `Your Keyboard Layout is ${await getKeyboardLayout()}`,
-		browser: `$You use version ${getBrowserVersion()} of ${getBrowser()}`,
-		timezone: `You are located in the ${Intl.DateTimeFormat().resolvedOptions().timeZone} timezone`,
-		screenResolution: `Your screen is ${NAV_INFOS.getScreenResolution().width} wide, ${NAV_INFOS.getScreenResolution().height} high and has a dept of ${NAV_INFOS.getScreenResolution().depth}`,
-		zoomLevel: `Your Browser has a zoom level of ${NAV_INFOS.getZoomLevel()}`
-	}
-	return filterStrings(infos)
-}
 
-export const crossFingerPrintInfos = async() => {
+//infos used to calculate fingerprint
+export const fingerPrintInfos = async() => {
+	console.log('fingerprint system infos called')
 	let infos = {
+		connectionType: NAV_INFOS.getConnectionType(),
+		vendor: NAV_INFOS.getVendor(),
+		language: NAV_INFOS.getLanguage(),
+		languages: NAV_INFOS.getLanguages(),
+		platform: Object.values(await NAV_INFOS.getPlatform()),
+		deviceMemory: NAV_INFOS.getDeviceMemeory(),
+		availableCPU : NAV_INFOS.getCPU(),
+		installedFonts : getFonts(),
+		plugins: NAV_INFOS.getPlugins(),
+		keyboardLayout: await getKeyboardLayout(),
+		browser: getBrowser(),
+		browserVersion: await getBrowserVersion(),
 		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-		hardwareConcurrency: NAV_INFOS.getCPU(),
-		screenResolution: NAV_INFOS.getScreenResolution(),
-		zoomLevel: NAV_INFOS.getZoomLevel()
+		touchscreen: isTouchScreen() ,
+		bluetooth : await getBluetoothEnabled() ,
+		PDFViewerEnabled: NAV_INFOS.getPdfViewerEnabled() ,
+		cookiesEnabled: NAV_INFOS.getCookisEnabled() ,
+		screenResolution: NAV_INFOS.getScreenResolution(),	
 	}
 
+	return filterData(infos)
 }

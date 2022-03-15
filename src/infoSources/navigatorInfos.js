@@ -1,9 +1,10 @@
 import { isChrome } from './browserInfos'
 import * as navigatorInfosHelper from "./navigatorInfos"
-import { getOS, getOSVersion } from './oSInfoHelpers'
+import { getOS, getOSVersion } from './OSInfoHelpers'
 
 
 const ua = navigator?.userAgent ? navigator.userAgent : '' 
+
 
 export const isTouchScreen = () => {
 	let isTouch = false
@@ -45,7 +46,7 @@ export const getPlatform = () => {
 		});
 
 	}else{
-		if(platform === "Mac" && navigatorInfosHelper.isTouchScreen()){
+		if((platform === "Mac" || "MacIntel") && navigatorInfosHelper.isTouchScreen()){
 				return {platform: "iPad", version: getOSVersion()}
 			}
 		return {platform: platform ? platform : getOS(), version: getOSVersion()}
@@ -98,6 +99,27 @@ export const getScreenResolution = (toString = false) => {
 
 export const getZoomLevel = () => {
 	return Math.ceil(((window.outerWidth - 10 ) / window.innerWidth) * 100);
+}
+
+export const getPermissions = () => {
+	try{
+		const permissions = ['accelerometer','accessibility-events','ambient-light-sensor', 'background-sync','camera','clipboard-read', 'clipboard-write' ]
+		const permissionsArray =[]
+		for(let p of permissions) {
+			navigator.permissions.query({name: p}).then((result) => {
+				if(result.status === 'ganted'){
+					permissionsArray.push(p)
+				}
+			})
+		}
+		console.log(permissionsArray)
+		return permissionsArray 
+
+	}catch(error){
+		console.log(error)
+		return undefined
+	}
+
 }
 
 

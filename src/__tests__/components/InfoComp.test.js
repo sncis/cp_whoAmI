@@ -4,7 +4,7 @@ import { mount } from 'enzyme'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 import InfoComp from '../../components/InfoComp'
 
-jest.mock('../../store/actions/fetchActions', () => ({
+jest.mock('../../store/actions/ipInfosFetcher', () => ({
 	fetchIpInfos: () => Promise.resolve({ fetchInfos: "some ip info", fetchIPInfos: "some other info"})
 }))
 
@@ -14,22 +14,11 @@ jest.mock('../../infoSources/systemInfos', () => ({
 }))
 
 
-
-// const renderComp = (state,dispatch) => {
-// 	return render(
-// 		<DataDispatchCtx.Provider value={dispatch}>
-// 			<DataStateCtx.Provider value ={state}>
-// 				<InfoComp />
-// 			</DataStateCtx.Provider>
-// 		</DataDispatchCtx.Provider>
-// 	)}
-
-
 describe("InfoComp",() => {
 	
-	// beforeEach(() => {
-	// 	jest.resetAllMocks()
-	// })
+	beforeEach(() => {
+		jest.resetAllMocks()
+	})
 
 	it('should call disptach function 3 times with right arguements', async() => {
 		const mockState= {}

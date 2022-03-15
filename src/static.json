@@ -9,7 +9,7 @@
 		"Feature-Policy": "camera 'none'; autoplay 'none'; fullscreen 'self'; geolocation 'self'; gyroscope 'self';  magnetometer 'self'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; publickey-credentials-get 'none'; sync-xhr 'self'; usb 'none'; xr-spatial-tracking 'none'",
 		"Referrer-Policy": "strict-origin-when-cross-origin",
 		"Cross-Origin-Resource-Policy": "cross-origin",
-		"Access-Control-Allow-Origins": "http://localhost:2000",
+		"Access-Control-Allow-Origins": "http://localhost:5000",
 		"Access-Control-Allow-Credentials": true
 		}
 	}

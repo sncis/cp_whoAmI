@@ -1,7 +1,7 @@
 import port from '../img/port.jpeg'
 import {Particle} from './Particle'
 import { getBrowser } from '../infoSources/browserInfos'
-import { wait } from '../utils/helpers'
+import { wait } from '../utils/filterHelpers'
 
 
 

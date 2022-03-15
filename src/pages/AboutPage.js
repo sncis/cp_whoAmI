@@ -1,4 +1,6 @@
 import '../style.css'
+import { v4 as uuidv4 } from 'uuid';
+
 import React , { useEffect, useState}from 'react'
 import hi from '../img/hi.png'
 import { deletData } from '../store/actions/fingerPrintActions'
@@ -10,11 +12,8 @@ import { getSystemInfos } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 
 
-const InfoPage = () => {
-
-	const {fingerprint} = useDataStateCtx()
-	const state = useDataStateCtx()
-	const [sysInfos, setSysInfos] = useState(null)
+const AboutPage = () => {
+	const {fingerprint, pointer,timeToClickButton } = useDataStateCtx()
 	const [deleteInfos, setDeleteInfo] = useState(false)
 	const [firstEntries, setFirstEntries]=useState([])
 	const [secondEntries, setSecondEntries]=useState([])
@@ -23,43 +22,48 @@ const InfoPage = () => {
 
 
 	useEffect(() => {
-		if(deleteInfos){
-			const deletionCount = deletData(fingerprint)
-			console.log(`${deletionCount} entries has been deleted`)
-			navigate('/')
+		const makeDelete = async() => {
+			if(deleteInfos){
+				const deletionCount = await deletData(fingerprint)
+				console.log(`${deletionCount} entries has been deleted`)
+				navigate('/')
+			}
 		}
+		makeDelete()
+	
 	},[deleteInfos, fingerprint, navigate])
 
 
 	useEffect(() => {
+		let isMounted = true;  
+
 		const getSysInfos = async() => {
-			let infos = await getSystemInfos()
-		
-			setSysInfos(infos)
-		}
-		getSysInfos()
-		
-		if(sysInfos){
-			let infos = { ...sysInfos,'Pointer': state.pointer, 'Battery Level': batteryLevel, 'Battery is charging': charging?.toString(), 'Battery charging time': chargingTime, 'Battery discharging time': dischargingTime }
+			let sysInfos = await getSystemInfos()		
+			let inf = { ...sysInfos,'Pointer': pointer, 'Battery Level': batteryLevel, 'Battery is charging': charging?.toString(), 'Battery charging time': chargingTime, 'Battery discharging time': dischargingTime }
 			
-			let entries = batteryLevel !== undefined ? Object.entries(infos) : Object.entries(sysInfos)
-			// console.log(entries)
+			let entries = batteryLevel !== undefined ? Object.entries(inf) : Object.entries(sysInfos)
 			let middle = entries.length / 2
 			let length = entries.length
 
-			setFirstEntries(Object.entries(infos).slice(0,middle))
-			setSecondEntries(Object.entries(infos).slice(middle, length - 1))
+			if(isMounted){
+				setFirstEntries(Object.entries(inf).slice(0,middle))
+				setSecondEntries(Object.entries(inf).slice(middle, length - 1))
+			}
 		}
-	},[sysInfos, batteryLevel,charging,chargingTime,dischargingTime, state.pointer])
+	
+		getSysInfos()
+			
+		return () => { isMounted = false }
+	},[batteryLevel,charging,chargingTime,dischargingTime, pointer])
 
 
 	return(
 		<div>
 			<NavigationComp />
-			<h2>Hi there! <img src={hi} alt="hi there" id='hiIcon'></img></h2>
+			<h2 data-testid='aboutWrapper'>Hi there! <img src={hi} alt="hi there" id='hiIcon'></img></h2>
 			<section>
 				<h4> Your unique ID is: {fingerprint}</h4>
-				<p> and it took you <span style={{fontWeight: 700}}>{state.timeToClickButton}</span> seconds to click on the button at the Homepage</p>
+				<p> and it took you <span style={{fontWeight: 700}}>{timeToClickButton}</span> seconds to click with your <span style={{fontWeight: 700}}>{pointer}</span> on the button at the Homepage</p>
 				<p id="infoText">the whole project is about islustrationg waht information commpanies and website providers 
 						can collect about you only by the fact that you visit their website. The information shown here are readably by everyone on the web 
 						and can be used to identifiy and track you all woer the web without using cookies or other form forom analytics.<br></br>
@@ -76,15 +80,15 @@ const InfoPage = () => {
 					<div className='column'>
 						<table>
 							<thead>
-							<tr key={new Date().getTime() + Math.round(Math.random() * 100)}>
+							<tr key={uuidv4()}>
 								<th>Info</th>
 								<th>Value</th>
 							</tr>
 
 							</thead>
 							<tbody>
-							{firstEntries && firstEntries.map((info, index) => 
-							<tr key={index + Math.random() * 100 + new Date().getTime() } className={index + Math.round(Math.random() * 100)}>
+							{firstEntries && firstEntries.map((info) => 
+							<tr key={uuidv4()}>
 								<td>{info[0]}</td>
 								<td>{info[1]}</td>
 							</tr>
@@ -96,14 +100,14 @@ const InfoPage = () => {
 					<div className='column'>
 						<table>
 							<thead>
-							<tr key={Math.random() * 100}>
+							<tr key={uuidv4()}>
 								<th>Info</th>
 								<th>Value</th>
 							</tr>
 							</thead>
 							<tbody>
-							{secondEntries && secondEntries.map((info,index) => 
-							<tr className={index + Math.random() * 100}>
+							{secondEntries && secondEntries.map((info) => 
+							<tr key={uuidv4()}>
 								<td>{info[0]}</td>
 								<td>{info[1]}</td>
 							</tr>
@@ -120,4 +124,4 @@ const InfoPage = () => {
 	)
 }
 
-export default InfoPage
+export default AboutPage

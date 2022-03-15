@@ -1,20 +1,20 @@
 import React, {useRef, useEffect, useState, useCallback } from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
-import { getSystemInfos } from '../infoSources/systemInfos'
+import { fingerPrintInfos } from '../infoSources/systemInfos'
 import { hashFunction } from '../utils/hash'
 import { drawCanvasFingerPrint } from '../utils/fingerprintDraw'
-import { deletData, storeFingerprint, getFingerprintInfos,storeIPInfos } from '../store/actions/fingerPrintActions'
-import { backendFetcher } from '../utils/apiHelpers/backendFetcher'
+import { storeFingerprint, getFingerprintInfos } from '../store/actions/fingerPrintActions'
+// import { backendFetcher } from '../utils/apiFetcher/backendFetcher'
 
 import { SET_FINGERPRINT, SET_LASTVISITSTEXT } from '../store/constants'
 
 const FingerprintComp = () => {
 
-	const [canvasHash, setCanvasHash] = useState('')
+	// const [canvasHash, setCanvasHash] = useState('')
+	// const [sysInfos, setSysInfos] = useState(undefined)
 	// const [ fingerPrintID, setFingerPrintID] = useState('')
 	// const [ lastVisit, setLastVisit ] = useState(null)
 	const dispatch = useDataDispatchCtx()
-
 	const canvasRef = useRef(null)
 
 	//drawing fingerprint canvas and create fingerprint hash
@@ -31,54 +31,41 @@ const FingerprintComp = () => {
 		
 		let src = canvas.toDataURL();
 		let hashString = hashFunction(src)
-		// console.log('hatString in drawing comp ', hashString)
 	
-		setCanvasHash(hashString)
+		// setCanvasHash(hashString)
 		return hashString
 	},[])
 
 
-// draw canvas fingerprinting effect
-	// useEffect(() => {
-	// 	draw()
-	// },[draw])
-
-
 // create fingerprinting string
 const createFingerPrintString = useCallback(async()=> {
-	let systemInf = await getSystemInfos()
-	let canvasHash = await draw()
+	let fingerPrintSystemInfos = await fingerPrintInfos()
+	let hash = await draw()
+	let systemString = Object.values(fingerPrintSystemInfos).join('').replace(/[\s,-.—]/g, '')
+	let fingerPrint = hashFunction(systemString.concat(hash))
 
-	let systemString = Object.values(systemInf).join('').replace(/[\s,-.—]/g, '')
-	let fingerprintString = hashFunction(systemString.concat(canvasHash))
-
-	return fingerprintString
+	return { fingerPrint: fingerPrint, fingerPrintSystemInfos: fingerPrintSystemInfos }
 	
 },[draw])
 
 //do fingerprint and store in backend
 useEffect(() => {
 	const doFingerprint = async() => {
-		let fingerPrintString = await createFingerPrintString()
+		let {fingerPrint, fingerPrintSystemInfos} = await createFingerPrintString()
 		dispatch({
 			type:SET_FINGERPRINT,
-			payload: fingerPrintString
+			payload: fingerPrint
 		})
-		let lastVisit = await getFingerprintInfos(fingerPrintString)
-		let text;
-		
-		if(lastVisit){
-			text = `Welcome Back! You visted us already ${lastVisit.n} times. The last time on the ${lastVisit.day} at ${lastVisit.time}`
-		}else{
-			text= "Welcome for the fist time!" 
-		}
+		let lastVisit = await getFingerprintInfos(fingerPrint)
+		let text = lastVisit ? `Welcome Back! You visted us already ${lastVisit.n} times. The last time on the ${lastVisit.day} at ${lastVisit.time}` : "Welcome for the fist time!" 
 		
 		dispatch({
 			type: SET_LASTVISITSTEXT,
 			payload: text
 		})
 	
-		storeFingerprint(fingerPrintString)
+		let data = {fingerPrint, ...fingerPrintSystemInfos}
+		storeFingerprint(data)
 	}
 
 	doFingerprint()

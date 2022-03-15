@@ -1,7 +1,3 @@
-const sleep = (ms) => {
-	return new Promise(resolve => resolve,ms)
-}
-
 export const drawCanvasFingerPrint = async(ctx,color1, color2, color3,color4) => {
 	ctx.beginPath()
 	ctx.fillStyle = color1;
@@ -11,7 +7,6 @@ export const drawCanvasFingerPrint = async(ctx,color1, color2, color3,color4) =>
 	ctx.lineTo(70,90)
 	ctx.fill()
 	ctx.closePath();
-
 
 	ctx.beginPath()
 	ctx.fillStyle = color2;

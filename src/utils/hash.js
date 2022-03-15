@@ -1,5 +1,4 @@
 
-
 export const hashFunction = (string) => {
 	let hash
 	for(let index in string){

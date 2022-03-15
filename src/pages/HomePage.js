@@ -6,30 +6,30 @@ import InfoComp from '../components/InfoComp'
 import { useDataStateCtx } from '../store/dataContext'
 import TextComp from '../components/TextComp'
 
+import { getPermissions } from '../infoSources/navigatorInfos' 
 
 const HomePage = () => {
 
 	const {lastVisitText} = useDataStateCtx()
-
 	const [renderComp, setRenderComp] = useState([])
-	const [count, setCount] = useState(1)
-
-	// useEffect(() => {
-	// 	console.log("*********HOME PAGE**************")
-	// },)
-
-
 
 	useEffect(() => {
 		if(lastVisitText){
 			let index = Math.random() * 100
-			// console.log(count)
-			setCount(c => c +1)
-			let props ={i:count,text: lastVisitText}
+			let props ={i:index,text: lastVisitText}
 			let element = createElement(TextComp, props)
 			setRenderComp(comps => [...comps, element])
 		}
 	},[lastVisitText])
+
+	useEffect(() => {
+		const getThem = async() => {
+			let p = await getPermissions()
+			console.log('*****PERMISSOSNSNS****')
+			console.log(p)
+		}
+		getThem()
+	},[])
 
 	
 	return(
@@ -37,7 +37,9 @@ const HomePage = () => {
 			<FingerPrintComp />
 			<InfoComp />
 			<StartBtnComp />
-			{lastVisitText && renderComp}
+			<div>
+				{lastVisitText && renderComp.map((c) => <span key={c}>{c}</span>)}
+			</div>
 		</div>
 	)
 }

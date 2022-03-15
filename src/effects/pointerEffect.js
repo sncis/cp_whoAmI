@@ -10,7 +10,7 @@ export const usePointerEffect = () => {
 				setPointer('mouse')
 				break;
 			case 'touch':
-				setPointer('touch')
+				setPointer('finger')
 				break;
 			default:
 				return 'no pointer'

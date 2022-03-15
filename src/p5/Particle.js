@@ -70,5 +70,3 @@ export function Particle(p5,x,y, color, drawVars, info = undefined){
 		p5.ellipse(this.x, this.y, this.radius * 2, this.radius * 2)
 	}
 }
-
-// export default Particle

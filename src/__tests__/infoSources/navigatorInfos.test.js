@@ -1,6 +1,7 @@
 import * as actions from '../../infoSources/navigatorInfos'
 import * as browserActions from '../../infoSources/browserInfos'
 
+
 const setNavigator= (value) => {
 	return Object.defineProperty(global, 'navigator', {value: value, writable: true});
 }
@@ -55,13 +56,13 @@ describe("navigatorInfos", () => {
 	})
 
 	it("should return ipad as platform", () => {
-		let value = {userAgent:"",appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel"}
+		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"Mac", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
 		setNavigator(value)
 
 		let isTouchSpy = jest.spyOn(actions, "isTouchScreen").mockReturnValueOnce(true)
 
 
-		expect(actions.getPlatform()).toBe("iPad")
+		expect(actions.getPlatform()).toEqual({"platform": "iPad", "version": "12_2_1"})
 		expect(isTouchSpy).toHaveBeenCalled()
 
 	})
@@ -79,18 +80,18 @@ describe("navigatorInfos", () => {
 	})
 
 	it("should return macIntel  as platform", () => {
-		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel"}
+		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
 		setNavigator(value)
 
-		expect(actions.getPlatform()).toEqual('MacIntel')
+		expect(actions.getPlatform()).toEqual({"platform": "MacIntel", "version": "12_2_1"})
 
 	})
 
 	it("should return undefined as platform", () => {
-		let value = {appCodeName: "Mozilla",appName: "Netscape"}
+		let value = {userAgent: '',appCodeName: "Mozilla",appName: "Netscape"}
 		setNavigator(value)
 
-		expect(actions.getPlatform()).toEqual(undefined)
+		expect(actions.getPlatform()).toEqual({"platform": undefined, "version": 0})
 
 	})
 

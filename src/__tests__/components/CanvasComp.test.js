@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import CanvasComp from '../../components/CanvasComp'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 
+
 jest.mock('../../components/P5Wrapper', () => ()=> {return <div>p5 wrapper</div>})
 jest.mock('../../pages/HomePage', () => () => <div>Hello Home page</div>)
 
@@ -33,7 +34,7 @@ describe('CanvasComp', () => {
 	})
 
 
-	it('should render p5 component when dispaly infos in state', () => {
+	it('should render p5 component when display infos are present in state', () => {
 		const mockState = {
 			displayInfos : {as: "AS35244 Tele Columbus AG",
 		 		city: "Munich",

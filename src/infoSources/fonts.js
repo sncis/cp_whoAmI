@@ -26,21 +26,7 @@ export const getFonts = () => {
   'Univers CE',
   "Verdana", "Verona",'Vrinda',
   'ZWAdobeF'];
-
-	// let fonts = ["Arial", "Arial Black", "Arial Narrow", 
-	// "Arial Rounded MT Bold", "Book Antiqua", "Bookman Old Style", 
-	// "Bradley Hand ITC", "Bodoni MT", "Calibri", "Century", "Century Gothic", 
-	// "Casual", "Comic Sans MS", "Consolas", "Copperplate Gothic Bold", 
-	// "Courier", "Courier New", "English Text MT", "Felix Titling", 
-	// "Futura", "Garamond", "Geneva", "Georgia", "Gentium", 
-	// "Haettenschweiler", "Helvetica", 
-	// "Impact", "Jokerman", "King", "Kootenay", "Latha", 
-	// "Liberation Serif", "Lucida Console", "Lalit", "Lucida Grande", 
-	// "Magneto", "Mistral", "Modena", "Monotype Corsiva", "MV Boli", 
-	// "OCR A Extended", "Onyx", "Palatino Linotype", "Papyrus", 
-	// "Parchment", "Pericles", "Playbill", "Segoe Print", "Shruti", 
-	// "Tahoma", "TeX", "Times", "Times New Roman", "Trebuchet MS", 
-	// "Verdana", "Verona"]
+	
 	return filterFonts(fonts)
 }
 

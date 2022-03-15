@@ -56,6 +56,7 @@ describe("browserInfo", () => {
 		
 		expect(actions.isChrome()).toBe(false)
 
+	
 	})
 
 	it("should be safarieMobile", () => {
