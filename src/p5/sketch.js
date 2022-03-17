@@ -15,14 +15,10 @@ export const sketch = (p5) => {
 	let particles = []
 	let spots = []
 	let infos =[]
-	let canvas
 	let infoPoints = []
 	let drawParticles = false
-	let duration = 1000
-	let startTime
-	let startValue
 	let drawStart = false
-	let drawVars = []
+
 
 	
 // select image based on browser
@@ -52,7 +48,6 @@ export const sketch = (p5) => {
 			let pWidth = (p.radius * 2) * p5.state.drawVariables.deviceMemory
 			
 			if(dist < pWidth){
-			// if(dist < pWidth && p.getColor() !== spot.col){
 				valid = false
 				break
 			}
@@ -144,7 +139,7 @@ export const sketch = (p5) => {
 			
 			if(count >= total){
 				drawParticles = true
-				startTime = p5.millis()
+				// startTime = p5.millis()
 				while(infos.length > 0){
 					// console.log('info linegh', infos)
 					createInfoPoints()
@@ -184,7 +179,7 @@ export const sketch = (p5) => {
 		
 		infos = Object.values(p5.state.displayInfos)
 
-		canvas = p5.createCanvas(width, height + 50)
+		p5.createCanvas(width, height + 50)
 
 		portImg.loadPixels()
 	
@@ -280,11 +275,10 @@ export const sketch = (p5) => {
 			let doneArray = particles.filter((p) => p.isGrowing() === true)
 
 			if(doneArray.length === 0){
-				console.log('ENDDDDDD')
+				console.log('END')
 				p5.noLoop()
 			}
 		}
 	}
 }
 
-//let p = [{ isGrowing: true, p:1},{ isGrowing: true, p:2},{ isGrowing: false, p:3}]
