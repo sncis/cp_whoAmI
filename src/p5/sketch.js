@@ -237,6 +237,7 @@ export const sketch = (p5) => {
 							if(dist < p.getRadius() *  2  + otherP.getRadius() * 2){
 								p.showInfo()
 								p.setGrowing(false)
+								// console.log(p)
 								break
 							}
 						}
@@ -276,11 +277,14 @@ export const sketch = (p5) => {
 				p.show()			
 			}
 
-			let doneArray = particles.filter((p) => p.getGrowing() === true)
+			let doneArray = particles.filter((p) => p.isGrowing() === true)
 
-			if(doneArray.length < 0){
+			if(doneArray.length === 0){
+				console.log('ENDDDDDD')
 				p5.noLoop()
 			}
 		}
 	}
 }
+
+//let p = [{ isGrowing: true, p:1},{ isGrowing: true, p:2},{ isGrowing: false, p:3}]

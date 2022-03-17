@@ -11,7 +11,6 @@ import { RESET_STORE } from '../store/constants'
 
 import { getSystemInfos } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
-import { getOSandVersion} from '../infoSources/oSInfoHelpers'
 
 const AboutPage = () => {
 	const {fingerprint, pointer,timeToClickButton } = useDataStateCtx()
@@ -22,11 +21,6 @@ const AboutPage = () => {
 	const navigate = useNavigate()
 	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
 	const [others, setOthers] = useState(null)
-
-	useEffect(() => {
-		let os = getOSandVersion()
-
-	})
 
 	useEffect(() => {
 		const makeDelete = async() => {
@@ -46,7 +40,7 @@ const AboutPage = () => {
 	useEffect(() => {
 		const getAll = async() => {
 			const all = await getAllFingerPrints()
-			const others = all.filter((f) => f !== fingerprint)
+			const others = all ? all.filter((f) => f !== fingerprint) : 'all'
 			setOthers(others)
 		}
 		getAll()

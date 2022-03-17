@@ -114,7 +114,7 @@ export const getPermissions = () => {
 				console.log(error)
 			})
 		}
-		return permissionsArray.length > 1 ? permissionsArray : undefined
+		return permissionsArray.length > 1 ? permissionsArray : []
 }
 
 
