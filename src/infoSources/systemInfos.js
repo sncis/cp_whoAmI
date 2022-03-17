@@ -73,7 +73,7 @@ export const getSystemInfos = async() => {
 		"PDF Viewer enabled": NAV_INFOS.getPdfViewerEnabled() ? "Yes" : "No",
 		"Cookies enabled": NAV_INFOS.getCookisEnabled() ? 'YES' : 'NO',
 		"Screen Resolution": `Width: ${screenResolution.width}, Height: ${screenResolution.height}, Depth: ${screenResolution.depth}`,
-		"Browser Permissions": NAV_INFOS.getPermissions()
+		"Browser Permissions": await NAV_INFOS.getPermissions()
 	}
 
 	return filterData(infos)

@@ -194,7 +194,7 @@ export const sketch = (p5) => {
 					createPoints()
 				}
 				let index = (x + y * portImg.width) * 4
-				let col = portImg.pixels[index]
+				// let col = portImg.pixels[index]
 				let r = portImg.pixels[index]
 				let g = portImg.pixels[index +1]
 				let b = portImg.pixels[index+ 2]
@@ -243,19 +243,14 @@ export const sketch = (p5) => {
 					}
 				}
 			}
-		
-			
-				if(p === undefined){
-					console.log("no p anymore")
-					drawStart = true
-				}
+			if(p === undefined){
+				console.log("no p anymore")
+				drawStart = true
 			}
+		}
 
 
 		if(drawStart)	{
-			// console.log("draw start is ok")
-			// p5.frameRate(0.8)
-
 			for(let p of particles){
 				if(p.getInfo() !== undefined){
 					continue
@@ -276,11 +271,8 @@ export const sketch = (p5) => {
 						}
 					}
 				}
-				// await wait(100)
-
 				p.grow()
 				await wait(50)
-
 				p.show()			
 			}
 
@@ -290,6 +282,5 @@ export const sketch = (p5) => {
 				p5.noLoop()
 			}
 		}
-		// }
 	}
 }

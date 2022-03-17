@@ -6,8 +6,6 @@ import InfoComp from '../components/InfoComp'
 import { useDataStateCtx } from '../store/dataContext'
 import TextComp from '../components/TextComp'
 
-import { getPermissions } from '../infoSources/navigatorInfos' 
-
 const HomePage = () => {
 
 	const {lastVisitText} = useDataStateCtx()
@@ -22,16 +20,6 @@ const HomePage = () => {
 		}
 	},[lastVisitText])
 
-	useEffect(() => {
-		const getThem = async() => {
-			let p = await getPermissions()
-			// console.log('*****PERMISSOSNSNS****')
-			// console.log(p)
-		}
-		getThem()
-	},[])
-
-	
 	return(
 		<div> 
 			<FingerPrintComp />
