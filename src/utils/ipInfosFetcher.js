@@ -1,4 +1,4 @@
-import { backendFetcher } from '../../utils/apiFetcher/backendFetcher'
+import { backendFetcher } from './apiFetcher/backendFetcher'
 
 
 export const fetchIpInfos = async() => {

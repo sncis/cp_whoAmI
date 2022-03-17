@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { render, screen, waitFor, act, fireEvent } from '@testing-library/react'
 import AboutPage from '../../pages/AboutPage'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
-import * as fingerprintAction from '../../store/actions/fingerPrintActions'
+import * as fingerprintAction from '../../utils/fingerPrintActions'
 
 
 
@@ -26,6 +26,8 @@ jest.mock("../../effects/batteryEffect", () =>  ({
 		}
 	})
 )
+
+
 
 const mockedUseNavigate = jest.fn()
 
@@ -58,6 +60,8 @@ const renderAboutPage = async() => {
 describe("AboutPage", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
+		jest.spyOn(fingerprintAction, 'getAllFingerPrints').mockReturnValue([123456789,-1737131536, -1117550210, -958996391, -723832795, -631324613, -454327225, -44842997, -32188627, 41555124, 416568245])
+
 	})
 
 	it('should render page without errors', async() => {
@@ -83,7 +87,8 @@ describe("AboutPage", () => {
 
 	})
 
-	it('should callnaviage and deletDate when clicking on the button', async() => {
+	it('should call naviage and deletDate when clicking on the button', async() => {
+
 		renderAboutPage()
 		
 		await waitFor(()=> screen.findAllByText('mouse'))
@@ -92,8 +97,16 @@ describe("AboutPage", () => {
 		const btn = screen.getByRole('button')
 
 		fireEvent.click(btn)
+		
 		expect(await deleteSpy).toHaveBeenCalled()
 		expect(mockedUseNavigate).toHaveBeenCalledWith('/')
+	})
+
+	it('should call get uniqueless of fingerprint', async() => {
+		renderAboutPage()
+		await waitFor(()=> screen.findAllByText('mouse'))
+
+		expect(await screen.findByText('10')).toBeInTheDocument()
 	})
 
 

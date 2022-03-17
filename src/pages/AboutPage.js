@@ -3,36 +3,56 @@ import { v4 as uuidv4 } from 'uuid';
 
 import React , { useEffect, useState}from 'react'
 import hi from '../img/hi.png'
-import { deletData } from '../store/actions/fingerPrintActions'
-import { useDataStateCtx } from '../store/dataContext'
+import { deletData, getAllFingerPrints } from '../utils/fingerPrintActions'
+import { useDataStateCtx, useDataDispatchCtx } from '../store/dataContext'
 import { useNavigate } from 'react-router-dom'
 import NavigationComp from '../components/NavigationComp'
+import { RESET_STORE } from '../store/constants'
 
 import { getSystemInfos } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
-
+import { getOSandVersion} from '../infoSources/OSInfoHelpers'
 
 const AboutPage = () => {
 	const {fingerprint, pointer,timeToClickButton } = useDataStateCtx()
+	const dispatch = useDataDispatchCtx()
 	const [deleteInfos, setDeleteInfo] = useState(false)
 	const [firstEntries, setFirstEntries]=useState([])
 	const [secondEntries, setSecondEntries]=useState([])
 	const navigate = useNavigate()
 	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
+	const [others, setOthers] = useState(null)
 
+	useEffect(() => {
+		let os = getOSandVersion()
+		console.log("**********OS******")
+		console.log(os)
+	})
 
 	useEffect(() => {
 		const makeDelete = async() => {
 			if(deleteInfos){
 				const deletionCount = await deletData(fingerprint)
 				console.log(`${deletionCount} entries has been deleted`)
+				dispatch({
+					type: RESET_STORE
+				})
 				navigate('/')
 			}
 		}
 		makeDelete()
 	
-	},[deleteInfos, fingerprint, navigate])
+	},[deleteInfos, fingerprint, navigate, dispatch])
 
+	useEffect(() => {
+		const getAll = async() => {
+			const all = await getAllFingerPrints()
+			const others = all.filter((f) => f !== fingerprint)
+			setOthers(others)
+		}
+		getAll()
+		
+	},[fingerprint])
 
 	useEffect(() => {
 		let isMounted = true;  
@@ -50,9 +70,7 @@ const AboutPage = () => {
 				setSecondEntries(Object.entries(inf).slice(middle, length - 1))
 			}
 		}
-	
-		getSysInfos()
-			
+		getSysInfos()	
 		return () => { isMounted = false }
 	},[batteryLevel,charging,chargingTime,dischargingTime, pointer])
 
@@ -63,7 +81,8 @@ const AboutPage = () => {
 			<h2 data-testid='aboutWrapper'>Hi there! <img src={hi} alt="hi there" id='hiIcon'></img></h2>
 			<section>
 				<h4> Your unique ID is: {fingerprint}</h4>
-				<p> and it took you <span style={{fontWeight: 700}}>{timeToClickButton}</span> seconds to click with your <span style={{fontWeight: 700}}>{pointer}</span> on the button at the Homepage</p>
+				{others && <p>and you are unique among <span style={{fontWeight: 700}}>{others.length}</span> visitors</p>}			
+				{ pointer && <p> and it took you <span style={{fontWeight: 700}}>{timeToClickButton}</span> seconds to click with your <span style={{fontWeight: 700}}>{pointer}</span> on the button at the Homepage</p>}
 				<p id="infoText">the whole project is about islustrationg waht information commpanies and website providers 
 						can collect about you only by the fact that you visit their website. The information shown here are readably by everyone on the web 
 						and can be used to identifiy and track you all woer the web without using cookies or other form forom analytics.<br></br>

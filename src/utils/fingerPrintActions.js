@@ -1,6 +1,5 @@
-import { backendFetcher } from '../../utils/apiFetcher/backendFetcher'
-import { SET_IPINFOS} from '../constants'
-
+import { backendFetcher } from './apiFetcher/backendFetcher'
+import { getLastVisit } from './fingerprintHelper'
 
 // const entriesTest = [
 // 	{visited:"2022-02-03T14:29:12.322Z",
@@ -35,20 +34,7 @@ export const storeFingerprint = async(fingerPrint) => {
 	}
 }
 
-//converting date string fromlast visits in more readable date
-const getLastVisit = (entries) => {
-	// console.log(entries)
-	const lastEntrie = entries.slice(-1)[0]
-	// console.log(entries.slice(-1))
-	
-	if(!lastEntrie){
-		return undefined
-	}
-	const date = new Date(lastEntrie.visited)
-	const day = date.toLocaleDateString()
-	const time = date.toLocaleTimeString()
-	return {day:day,time:time,n:entries.length}
-	}
+
 
 
 //getting fingerprint infos from bakcend (if user has already visited teh website)
@@ -95,4 +81,16 @@ export const deletData = async(id) => {
 	}catch(err){
 		console.log('errror from deletion', err)
 	}
+}
+
+
+export const getAllFingerPrints = async() => {
+	const options = {url:`/fingerprint/all`, method: 'get'}
+	try{
+		let all = await backendFetcher(options)
+		return all.data	
+	}catch(error){
+		console.log(error)
+	}
+
 }

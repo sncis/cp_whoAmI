@@ -1,19 +1,14 @@
-import React, {useRef, useEffect, useState, useCallback } from 'react'
+import React, {useRef, useEffect, useCallback } from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
 import { fingerPrintInfos } from '../infoSources/systemInfos'
 import { hashFunction } from '../utils/hash'
 import { drawCanvasFingerPrint } from '../utils/fingerprintDraw'
-import { storeFingerprint, getFingerprintInfos } from '../store/actions/fingerPrintActions'
-// import { backendFetcher } from '../utils/apiFetcher/backendFetcher'
-
+import { storeFingerprint, getFingerprintInfos } from '../utils/fingerPrintActions'
 import { SET_FINGERPRINT, SET_LASTVISITSTEXT } from '../store/constants'
 
 const FingerprintComp = () => {
 
-	// const [canvasHash, setCanvasHash] = useState('')
-	// const [sysInfos, setSysInfos] = useState(undefined)
-	// const [ fingerPrintID, setFingerPrintID] = useState('')
-	// const [ lastVisit, setLastVisit ] = useState(null)
+
 	const dispatch = useDataDispatchCtx()
 	const canvasRef = useRef(null)
 
@@ -31,8 +26,7 @@ const FingerprintComp = () => {
 		
 		let src = canvas.toDataURL();
 		let hashString = hashFunction(src)
-	
-		// setCanvasHash(hashString)
+		
 		return hashString
 	},[])
 
@@ -72,14 +66,8 @@ useEffect(() => {
 	
 },[createFingerPrintString, dispatch])
 
-
-
-
-
 	return(
-		// <div style={{border: '1px solid red', margin:"10px"}}>
 		<div>
-			{/* <p>{canvasHash}</p> */}
 			<canvas ref={canvasRef} width='200' height='100' hidden></canvas>
 		</div>
 	)

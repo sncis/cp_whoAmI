@@ -3,7 +3,7 @@ import { useDataDispatchCtx } from '../store/dataContext'
 import {  SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '../store/constants'
 import { displayInfos, getDrawVariables } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
-import { fetchIpInfos } from '../store/actions/ipInfosFetcher'
+import { fetchIpInfos } from '../utils/ipInfosFetcher'
 import { filterData ,filterIPInfos} from '../utils/filterHelpers'
 
 

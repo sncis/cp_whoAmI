@@ -218,6 +218,8 @@ export const sketch = (p5) => {
 			if(p !== undefined){
 				while(p.isGrowing()){
 					p5.frameRate(0.7)
+					await wait(100)
+
 					p.grow()
 					await wait(100)
 					p.show()
@@ -243,41 +245,51 @@ export const sketch = (p5) => {
 			}
 		
 			
-			// 	if(p === undefined){
-			// 		console.log("no p anymore")
-			// 		drawStart = true
-			// 	}
-			// }
+				if(p === undefined){
+					console.log("no p anymore")
+					drawStart = true
+				}
+			}
 
 
-		// if(drawStart)	{
-		// 	// console.log("draw start is ok")
-		// 	p5.frameRate(10)
+		if(drawStart)	{
+			// console.log("draw start is ok")
+			// p5.frameRate(0.8)
 
-		// 	for(let p of particles){
-		// 		if(p.getInfo() !== undefined){
-		// 			continue
-		// 		}
+			for(let p of particles){
+				if(p.getInfo() !== undefined){
+					continue
+				}
 
-		// 		if(p.isGrowing()){
-		// 			if(p.edges()){
-		// 				p.setGrowing(false)
-		// 			}else{
-		// 				for(let otherP of particles){
-		// 					if( p !== otherP){
-		// 						let dist = p5.dist(p.getX(), p.getY(), otherP.getX() , otherP.getY())
-		// 						if(dist  < p.getRadius() + otherP.getRadius()){
-		// 							p.setGrowing(false)
-		// 							break
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 		p.grow()
-		// 		p.show()			
-		// 	}
-		// }
+				if(p.isGrowing()){
+					if(p.edges()){
+						p.setGrowing(false)
+					}else{
+						for(let otherP of particles){
+							if( p !== otherP){
+								let dist = p5.dist(p.getX(), p.getY(), otherP.getX() , otherP.getY())
+								if(dist  < p.getRadius() + otherP.getRadius()){
+									p.setGrowing(false)
+									break
+								}
+							}
+						}
+					}
+				}
+				// await wait(100)
+
+				p.grow()
+				await wait(50)
+
+				p.show()			
+			}
+
+			let doneArray = particles.filter((p) => p.getGrowing() === true)
+
+			if(doneArray.length < 0){
+				p5.noLoop()
+			}
 		}
+		// }
 	}
 }

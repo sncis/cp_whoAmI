@@ -18,15 +18,15 @@ const HomePage = () => {
 			let index = Math.random() * 100
 			let props ={i:index,text: lastVisitText}
 			let element = createElement(TextComp, props)
-			setRenderComp(comps => [...comps, element])
+			setRenderComp(element)
 		}
 	},[lastVisitText])
 
 	useEffect(() => {
 		const getThem = async() => {
 			let p = await getPermissions()
-			console.log('*****PERMISSOSNSNS****')
-			console.log(p)
+			// console.log('*****PERMISSOSNSNS****')
+			// console.log(p)
 		}
 		getThem()
 	},[])
@@ -38,7 +38,7 @@ const HomePage = () => {
 			<InfoComp />
 			<StartBtnComp />
 			<div>
-				{lastVisitText && renderComp.map((c) => <span key={c}>{c}</span>)}
+				{lastVisitText && renderComp}
 			</div>
 		</div>
 	)
