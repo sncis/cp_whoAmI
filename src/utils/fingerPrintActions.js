@@ -59,24 +59,18 @@ export const getFingerprintInfos = async(id) => {
 			time: lastVisited.time,
 			n: lastVisited.n
 		}
-		// console.log("lastVisited",lastVisited.day, lastVisited.time)
-		// console.log(resp)
 	}catch(err){
 		console.log('error in getting last visits for fingerprint')
-		// console.log(err)
-		// console.log("Error in getting fingerprint infos")
+	
 	}
 }
 
 //delete fingerprint infos in backend
 export const deletData = async(id) => {
-	// console.log('deletion of data called')
 	const options = {url:`/fingerprint?id=${id}`, method: 'delete'}
 	try{
 		let deletion = await backendFetcher(options)
-		// console.log('deleted arrayys')
 		let count = deletion.count
-		// console.log(deletion)
 		return count
 	}catch(err){
 		console.log('errror from deletion', err)
