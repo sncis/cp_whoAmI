@@ -1,6 +1,6 @@
 import { isChrome } from './browserInfos'
 import * as navigatorInfosHelper from "./navigatorInfos"
-import { getOS, getOSVersion, getOSandVersion } from './OSInfoHelpers'
+import { getOS, getOSVersion, getOSandVersion } from './oSInfoHelpers'
 
 
 const ua = navigator?.userAgent ? navigator.userAgent : '' 

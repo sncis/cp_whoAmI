@@ -11,7 +11,7 @@ import { RESET_STORE } from '../store/constants'
 
 import { getSystemInfos } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
-import { getOSandVersion} from '../infoSources/OSInfoHelpers'
+import { getOSandVersion} from '../infoSources/oSInfoHelpers'
 
 const AboutPage = () => {
 	const {fingerprint, pointer,timeToClickButton } = useDataStateCtx()
@@ -25,8 +25,7 @@ const AboutPage = () => {
 
 	useEffect(() => {
 		let os = getOSandVersion()
-		console.log("**********OS******")
-		console.log(os)
+
 	})
 
 	useEffect(() => {
