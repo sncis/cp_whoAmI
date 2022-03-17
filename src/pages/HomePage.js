@@ -1,4 +1,4 @@
-import React, { createElement, useEffect, useState, useCallback} from 'react'
+import React, { createElement, useEffect, useState} from 'react'
 
 import StartBtnComp from '../components/StartBtnComp'
 import FingerPrintComp from '../components/FingerprintComp'
