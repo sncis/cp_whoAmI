@@ -46,9 +46,7 @@ export const getLanguages = () => {
 	})
 	let langs = new Set(language)
 	return langs.size >=1 ? Array.from(langs) : undefined
-	
-	// return language.length >=1 ? new Set(language) : undefined
-}
+	}
 
 
 

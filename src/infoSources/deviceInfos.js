@@ -2,7 +2,7 @@ import { isChrome } from './browserInfos'
 import { isTouchScreen } from './screenInfos'
 import {getOSandVersion } from './OSInfos'
 
-export const getPlatform = () => {
+export const getPlatform = async() => {
 	let { platform } = window.navigator
 	if(isChrome()){
 	 return navigator.userAgentData.getHighEntropyValues(
@@ -11,13 +11,11 @@ export const getPlatform = () => {
 		});
 	}
 	if(isTouchScreen() && (platform === "MacIntel" || platform === "Mac")){
-		getOSandVersion()
-		return `iPad ${navigator.userAgent?.split(')')[0].split(' ').pop()}`
+		return {platform: 'iOS', version: getOSandVersion().version}
 	}
 	
 	else{
-		console.log(platform)
-		return platform ? `${platform} ${navigator.userAgent?.split(')')[0].split(' ').pop()}`: getOSandVersion()
+		return getOSandVersion().platform ? {platform: getOSandVersion().platform , version : getOSandVersion().version } : {platform: platform || undefined, version: ''}
 	}	
 }
 
@@ -27,4 +25,12 @@ export const getCPU = () => {
 
 export const getDeviceMemeory = () => {
 	return navigator.deviceMemory || undefined 
+}
+
+export const isMobile = () => {
+	let media = window.matchMedia("only screen and (max-width: 760px)").matches
+	if(media && isTouchScreen()){
+		return true
+	}
+	return false
 }

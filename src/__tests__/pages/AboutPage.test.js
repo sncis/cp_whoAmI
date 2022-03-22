@@ -5,6 +5,7 @@ import { render, screen, waitFor, act, fireEvent } from '@testing-library/react'
 import AboutPage from '../../pages/AboutPage'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 import * as fingerprintAction from '../../utils/fingerPrintActions'
+import * as browserInfos from '../../infoSources/browserInfos'
 
 jest.mock('../../infoSources/systemInfos', () => ({
 	getSystemInfos: () => Promise.resolve({info: 'some sys info', secondInfo: 'some second Info'}),
@@ -66,8 +67,6 @@ describe("AboutPage", () => {
 		expect(screen.getByText(/some second string/)).toBeInTheDocument()
 		expect(screen.getByRole('button')).toBeInTheDocument()
 
-		// screen.debug()
-
 	})
 
 	it('should call naviage and deletDate when clicking on the button', async() => {
@@ -90,5 +89,16 @@ describe("AboutPage", () => {
 		await waitFor(()=> screen.findAllByText('mouse'))
 
 		expect(await screen.findByText('10')).toBeInTheDocument()
+	})
+
+	it('should call browserSpy', async() => {
+		const browserSpy = jest.spyOn(browserInfos, 'isChrome').mockReturnValue(true)
+
+		renderAboutPage()
+
+		await waitFor(()=> screen.findAllByText('mouse'))
+	
+		expect(browserSpy).toHaveBeenCalled()
+
 	})
 })

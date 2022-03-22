@@ -8,15 +8,14 @@ const setNavigator= (value) => {
 
 describe("DeviceInfos", () => {
 
-
-	it("should return ipad as platform", () => {
+	it("should return ipad as platform", async() => {
 		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
 		setNavigator(value)
 
 		let isTouchSpy = jest.spyOn(screenActions, "isTouchScreen").mockReturnValueOnce(true)
 
+		expect(await getPlatform()).toEqual({platform: 'iOS', version:'12_2_1'})
 
-		expect(getPlatform()).toEqual('iPad 12_2_1')
 		expect(isTouchSpy).toHaveBeenCalled()
 
 	})
@@ -33,19 +32,20 @@ describe("DeviceInfos", () => {
 
 	})
 
-	it("should return macIntel  as platform", () => {
+	it("should return Mac OS as platform", async() => {
 		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
 		setNavigator(value)
 
-		expect(getPlatform()).toEqual("MacIntel 12_2_1")
+		expect(await getPlatform()).toEqual({platform: 'Mac OS', version:'12_2_1'})
+
 
 	})
 
-	it("should return undefined as platform", () => {
+	it("should return undefined as platform", async() => {
 		let value = {userAgent:'',appCodeName: "Mozilla",appName: "Netscape"}
 		setNavigator(value)
 
-		expect(getPlatform()).toEqual('undefined ')
+		expect(await getPlatform()).toEqual({platform: undefined, version:''})
 
 	})
 

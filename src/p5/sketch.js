@@ -4,6 +4,7 @@ import safari from '../img/safari.png'
 import {Particle} from './Particle'
 import { getBrowser } from '../infoSources/browserInfos'
 import { wait } from '../utils/filterHelpers'
+import { isMobile } from '../infoSources/deviceInfos'
 
 
 
@@ -170,17 +171,18 @@ export const sketch = (p5) => {
 
 		portImg = p5.loadImage(image, img => {
 			portImg = img
-			portImg.resize(0, window.innerHeight/1.5)
+			portImg.resize(0, window.innerHeight/1.3)
 			height = portImg.height
 		})
 	}
 
 	p5.setup = async() => {
+		
 		await p5.state.displayInfos
 		await p5.state.drawVariables		
 		infos = Object.values(p5.state.displayInfos)
 
-		p5.createCanvas(width, height + 50)
+		p5.createCanvas(width, height + 100)
 
 		portImg.loadPixels()
 	
@@ -203,11 +205,12 @@ export const sketch = (p5) => {
 		}
 	}
 
-
-
 	p5.draw = async() => {	
-		p5.translate(width / 2 - (width / 4), 10);
-
+	
+		if(!isMobile()){
+			p5.translate(width / 2 - (width / 4.5), 20);
+		}
+	
 		if(drawParticles){
 			let p = infoPoints.shift()
 			if(p !== undefined){
@@ -220,6 +223,8 @@ export const sketch = (p5) => {
 					p.show()
 
 					if(p.edges()){
+						console.log(`some point ${p}`)
+								console.log(p)
 						p.showInfo()
 						p.setGrowing(false)
 						break
@@ -230,6 +235,8 @@ export const sketch = (p5) => {
 							let dist = p5.dist(p.getX(), p.getY(), otherP.getX(), otherP.getY())
 
 							if(dist < p.getRadius() *  2  + otherP.getRadius() * 2){
+								// console.log(`some point ${p}`)
+								// console.log(p)
 								p.showInfo()
 								p.setGrowing(false)
 								// console.log(p)

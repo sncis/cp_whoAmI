@@ -13,11 +13,12 @@ import {getPlatform , getCPU, getDeviceMemeory } from './deviceInfos'
 
 //infos which are displayed to user in sketch 
 export const getDisplayInfos = async() => {
+	const platformInfos = await getPlatform()
 	let infos = {
 		connectionType: getConnectionType(),
 		vendor: NAV_INFOS.getVendor(),
 		language: getLanguage(),
-		paltform: await getPlatform(),
+		paltform:`${platformInfos.platform} ${platformInfos.version}`,
 		deviceMemory: getDeviceMemeory(),
 		cpu : getCPU(),
 		fonts : getFonts().length,
@@ -87,7 +88,7 @@ export const getSystemInfoStrings = (obj) => {
 		connectionType: `You use a ${obj.connectionType} internet connection with a download speed of approx. ${obj.downlinkMax} megabits per second`,
 		vendor:`Your use ${obj.browser} version ${obj.browserVersion} from ${obj.vendor.split(' ')[0]} as Browser`,
 		language: obj.languages === undefined || obj.languages == obj.language ? `You prefer to browse the web in ${obj.language}`:`You prefer to browse the web in ${obj.language} and you also uses ${obj.languages} sometimes` ,
-		platform: obj.platform.version ? `Your device runs on a ${obj.platform.platform} Operating System with version ${obj.platform.version}` :`Your device runs on a ${obj.platform} Operating System` ,
+		platform: obj.platform.version  !== ''? `Your device runs on a ${obj.platform.platform} Operating System with version ${obj.platform.version}` :`Your device runs on a ${obj.platform} Operating System` ,
 		keyboardLayout: `You use the ${obj.keyboardLayout} Keyboardlayout for typing`,
 		timezone:`You are based in the ${obj.timezone} Timezone`,
 		country: `You are based in ${obj.country} in the region of ${obj.regionName}`,

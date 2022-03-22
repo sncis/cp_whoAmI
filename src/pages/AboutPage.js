@@ -1,4 +1,6 @@
 import '../style.css'
+import '../About.css'
+
 import { v4 as uuidv4 } from 'uuid';
 
 import React , { useEffect, useState}from 'react'
@@ -55,28 +57,13 @@ const AboutPage = () => {
 		let isMounted = true;  
 
 		const getSysInfos = async() => {
-			// let sysInfos = await getSystemInfos()		
-			// let inf = { ...sysInfos,...ipInfos, 'Pointer': pointer, 'Battery Level': batteryLevel, 'Battery is charging': charging?.toString(), 'Battery charging time': chargingTime, 'Battery discharging time': dischargingTime }
 			let sysInfos = await getSystemInfos()
-			// console.log("ipInfos")
-
-			// console.log(ipInfos)
 			let inf = { ...sysInfos,...ipInfos, pointer: pointer, batteryLevel: batteryLevel, batteryCharging: charging, batteryChargingTime: chargingTime, batteryDischargingTime: dischargingTime }
-			// console.log("INF********!!!!!!!!")
-			// console.log(inf)
+		
 			let infosIn = getSystemInfoStrings(inf)
-			// console.log("infosIn**************!!!!!!!!")
-			// console.log(sysInfos)
-
-			// console.log(infosIn)
-
-			// const fiteredInfos = filterData(inf)
-			// let entries = batteryLevel !== undefined ? Object.entries(inf) : Object.entries(sysInfos)
 			const entries = Object.entries(infosIn)
 		
 			if(isMounted){
-				// setFirstEntries(Object.entries(infosIn).slice(0,middle))
-				// setSecondEntries(Object.entries(infosIn).slice(middle, length - 1))
 				setEntries(Object.entries(infosIn))
 			}
 		}
@@ -104,38 +91,52 @@ const AboutPage = () => {
 	return(
 		<div>
 			<NavigationComp />
+			<div id='header-section'>
 			<h2 data-testid='aboutWrapper'>Hi there! <img src={hi} alt="hi there" id='hiIcon'></img></h2>
-			<section>
 				<h4> Your Fingerprint ID is: {fingerprint}</h4>
-				{others && <p>and you are unique among <span style={{fontWeight: 700}}>{others.length}</span> visitors</p>}			
-				{ pointer && <p> It took you <span style={{fontWeight: 700}}>{timeToClickButton}</span> seconds to click on the button at the Homepage with your <span style={{fontWeight: 700}}>{pointer}</span></p>}
-				<p id="infoText">Are you wondering what that data was that just popped up? The data you saw on the previous page is information that any website can collect about you. No cookies, 
-				trackers or other hidden technology, are used to retrieve this information. Depending on the browser, more or less information may be collected and used to identify and profile you. 
-				You can check this out by opening this website in another browser like {browsers[0]} or {browsers[1]}, where you will see a slightly different image representing you. Depending on the browser, 
-				the color scheme and information you see will be different and you will have a unique fingerprint.
+				{others && <p>You are unique among <span className='info-span'>{others.length}</span> visitors,</p>}			
+				{ pointer && <p> and it took you <span className='info-span'>{timeToClickButton}</span> seconds to click on the button at the Homepage with your <span style={{fontWeight: 700}}>{pointer}</span></p>}
+				
+			</div>
+		
+				
+				<section id='text-container'>
+				 <p className='info-header'>Are you wondering what that data was that just popped up?</p> 
+				
+				 <p id="info-text">
+					 The data you saw on the previous page is information that any website can collect about you. No cookies, 
+				trackers or other hidden technology, are used 
+				to retrieve this information. Depending on the browser, more or less information may be collected and used to identify and profile you. 
+				You can check this out by opening this website in another browser like {browsers[0]} or {browsers[1]}, where you will see a slightly different image representing you. 
+				Depending on the browser, the color scheme and information you see will be different and you will have a unique fingerprint.
 				<br></br>
+				<br></br>
+
 				Browser fingerprinting is a technique that collects information from your browser and your device and stitched together, they form a unique combination called a "fingerprint". 
 				This fingerprint can be tracked across multiple browser sessions, and websites don't need cookies or other techniques to identify you and link the session and what you do on their website to you. 
 				While some privacy-conscious users disable cookies, anonymize their IP address, use VPNs or browser plugins to prevent tracking, browser fingerprinting is more difficult to circumvent and mostly invisible to the user.
 				<br></br>
+				<br></br>
+
 				Even though the information may seem trivial to you, in combination with other information you have disclosed on the Internet, it can tell a lot about you and make it pretty useful for business. 
 				The purpose of this website is to show users what information can be collected and to create awareness about this topic. Based on the information collected, an abstract "portrait" is drawn to illustrate 
 				that your device/browser can be seen as a mirror of yourself. Even if the website doesn't know your name and address, by collecting your browser and device settings and preferences 
 				it can find out a lot about you and your personality. 
 			</p>
+
 			</section>
-			<section id='infoSection'>
-				<p>Let's see what we know about you:)</p>
+			<section id='info-section'>
+				<p>Let's see what we know about you</p>
 	
-				<div className="row">
+				<div className="info-container">
 					<div className='column'>
 						<table>
-							 <thead>
-							<tr key={uuidv4()}>
+							 {/* <thead> */}
+							{/* <tr key={uuidv4()}> */}
 								{/* <th>Info</th> */}
 								{/* <th>Value</th> */}
-							</tr>
-							</thead> 
+							{/* </tr> */}
+							{/* </thead>  */}
 							<tbody>
 							{entries && entries.map((info) => 
 							<tr key={uuidv4()}>
