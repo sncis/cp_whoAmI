@@ -13,7 +13,7 @@
 		"Feature-Policy": "camera 'none'; autoplay 'none'; fullscreen 'self'; geolocation 'self'; gyroscope 'self';  magnetometer 'self'; microphone 'none'; midi 'self'; payment 'self'; picture-in-picture 'self'; publickey-credentials-get 'self'; sync-xhr 'self'; usb 'self'; xr-spatial-tracking 'self'",
 		"Referrer-Policy": "strict-origin-when-cross-origin",
 		"Cross-Origin-Resource-Policy": "cross-origin",
-		"Access-Control-Allow-Origin": ["https://api-whoami.herokuapp.com","http://localhost:5000", "https://git.heroku.com/api-whoami.git"],
+		"Access-Control-Allow-Origin": ["https://api-whoami.herokuapp.com","http://localhost:5000"],
 		"Access-Control-Allow-Credentials": true
 		}
 	}
