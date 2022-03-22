@@ -65,10 +65,7 @@ useEffect(() => {
 
 	return(
 		<div>
-			<p>{finger}</p>
-			<canvas ref={canvasRef} width='200' height='100' ></canvas>
-			{/* <canvas ref={canvasRef} width='200' height='100' hidden></canvas> */}
-
+			<canvas ref={canvasRef} width='200' height='100' hidden></canvas>
 		</div>
 	)
 }
