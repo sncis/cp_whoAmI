@@ -10,12 +10,7 @@ export const backendFetcher = async(options) => {
 		console.log(`data from backend with request ${options.url}`, responds.data)
 		return responds.data
 	}catch(error){
-		console.log(error)
-		// console.log(error.message)
 		throw new Error(error)
-
-		// return {}
-		// throw new Error("Error in storing fingerPrint")
 	}
 }
 

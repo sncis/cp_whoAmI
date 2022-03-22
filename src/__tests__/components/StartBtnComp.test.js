@@ -28,12 +28,12 @@ jest.mock('react-router-dom', () => ({
 
 
 describe('StartBtnComp', () => {
-	// beforeEach(() => {
-	// 	jest.clearAllMocks()
-	// })
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+	// afterEach(() => {
+	// 	jest.clearAllMocks();
+	// });
 
 	it('should render without errors', () => {
 
@@ -45,7 +45,7 @@ describe('StartBtnComp', () => {
 		const btn = screen.getByRole('button')
 		
 		expect(btn).toBeInTheDocument()
-		expect(screen.getByText(/Who Am I/)).toBeInTheDocument()
+		expect(screen.getByText(/Who Am I/i)).toBeInTheDocument()
 	})
 	
 	it('should render loading message when button is clicked', () => {
@@ -56,7 +56,7 @@ describe('StartBtnComp', () => {
 
 		const btn = screen.getByRole('button')
 		fireEvent.click(btn)
-		expect(screen.getByText(/Loading your Information.../)).toBeInTheDocument()
+		expect(screen.getByText(/Loading your Information.../i)).toBeInTheDocument()
 		expect(mockedUseNavigate).not.toHaveBeenCalled()
 	})
 
@@ -72,7 +72,7 @@ describe('StartBtnComp', () => {
 		const btn = screen.getByRole('button')
 		
 		expect(btn).toBeInTheDocument()
-		expect(screen.getByText(/Who Am I/)).toBeInTheDocument()
+		expect(screen.getByText(/Who Am I/i)).toBeInTheDocument()
 
 		expect(mockDispatch).toHaveBeenCalledWith(action)
 	})
@@ -85,7 +85,7 @@ describe('StartBtnComp', () => {
 
 		const btn = screen.getByRole('button')
 		fireEvent.click(btn)
-		expect(screen.queryByText(/Loading your Information.../)).toBeNull()
+		expect(screen.queryByText(/Loading your Information.../i)).toBeNull()
 		expect(mockedUseNavigate).toHaveBeenCalledWith('/sketch')
 	})
 

@@ -12,25 +12,21 @@ export const dataReducer= (state, {type, payload}) => {
 			loading: payload
 		}
 	case "SET_ERROR":
-		// console.log("error dispatched")
 		return{
 			...state,
 			error: payload
 		}
 	case "SET_CANVASHASH":
-		// console.log("canvashash," , payload)
 		return{
 			...state,
 			canvasHash: payload
 		}
 	case "SET_FINGERPRINTDATA":
-		// console.log('fingerprint data set')
 		return{
 			...state,
 			fingerPrintData: payload
 		}
 	case "SET_IPINFOS": 
-	// console.log("set ip infos dispatched")
 		return{
 			...state,
 			ipInfos: payload
@@ -52,7 +48,6 @@ export const dataReducer= (state, {type, payload}) => {
 			displayInfos: {...state.displayInfos, pointer: payload}
 		}
 	case  'SET_TIMETOCLICKBUTTON':
-		// console.log('button was clicked after', payload)
 		return { 
 			...state,
 			timeToClickButton: payload

@@ -12,8 +12,11 @@ export const usePointerEffect = () => {
 			case 'touch':
 				setPointer('finger')
 				break;
+			case 'pen':
+				setPointer('pen')
+				break;
 			default:
-				return 'no pointer'
+				return undefined
 		}
 
 	}

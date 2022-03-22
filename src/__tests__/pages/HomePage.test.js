@@ -1,7 +1,7 @@
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 
-import { render, screen, waitFor, act, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 import HomePage from '../../pages/HomePage'

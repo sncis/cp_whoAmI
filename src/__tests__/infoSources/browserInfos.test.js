@@ -1,7 +1,5 @@
 import * as actions from '../../infoSources/browserInfos'
-
-import * as touch from '../../infoSources/navigatorInfos'
-
+import * as touch from '../../infoSources/screenInfos'
 
 let windowGetter
 let navigatorGetter

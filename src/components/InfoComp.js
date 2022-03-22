@@ -1,7 +1,7 @@
 import {useEffect, useCallback} from 'react'
 import { useDataDispatchCtx } from '../store/dataContext'
-import {  SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES } from '../store/constants'
-import { displayInfos, getDrawVariables } from '../infoSources/systemInfos'
+import {  SET_LOADING, SET_DISPLAYINFOS, SET_DRAWVARIABLES,SET_IPINFOS } from '../store/constants'
+import { getDisplayInfos, getDrawVariables } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { fetchIpInfos } from '../utils/ipInfosFetcher'
 import { filterData ,filterIPInfos} from '../utils/filterHelpers'
@@ -19,15 +19,13 @@ const InfoComp = () => {
 		})
 
 		let resp = await fetchIpInfos()
+	
 		let ipInfos = resp.data ? filterIPInfos(resp.data) : undefined
-		let sysInfos = await displayInfos()
+		let dispalyInfos = await getDisplayInfos()
 		let drawVariables =  getDrawVariables()
-		
 
-		let d = {...ipInfos,...sysInfos, batteryLevel,charging,chargingTime,dischargingTime}
-		
+		let d = {...ipInfos,...dispalyInfos, batteryLevel,charging,chargingTime,dischargingTime}
 		let data = filterData(d)
-		// console.log('filtered data', data)
 		
 		dispatch({
 			type: SET_DISPLAYINFOS,
@@ -36,6 +34,10 @@ const InfoComp = () => {
 		dispatch({
 			type: SET_DRAWVARIABLES,
 			payload: drawVariables
+		})
+		dispatch({
+			type: SET_IPINFOS,
+			payload: ipInfos
 		})
 
 		dispatch({

@@ -35,9 +35,7 @@ const StartBtnComp = () => {
 	useEffect(() => {
 		if(clicked){
 			setNavigation(true);
-			let timeCollapse = (new Date() - timer) / 1000;
-			// console.log("time", timeCollapse);
-		
+			let timeCollapse = (new Date() - timer) / 1000;		
 			dispatch({
 				type: SET_TIMETOCLICKBUTTON,
 				payload: timeCollapse

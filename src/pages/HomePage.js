@@ -6,6 +6,7 @@ import InfoComp from '../components/InfoComp'
 import { useDataStateCtx } from '../store/dataContext'
 import TextComp from '../components/TextComp'
 
+
 const HomePage = () => {
 
 	const {lastVisitText} = useDataStateCtx()
@@ -19,6 +20,7 @@ const HomePage = () => {
 			setRenderComp(element)
 		}
 	},[lastVisitText])
+
 
 	return(
 		<div> 

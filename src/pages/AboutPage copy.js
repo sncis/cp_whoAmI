@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import NavigationComp from '../components/NavigationComp'
 import { RESET_STORE } from '../store/constants'
 
-import { getSystemInfos, getSystemInfoStrings } from '../infoSources/systemInfos'
+import { getSysInfosInfos, getSysInfoStringsInfos } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { isChrome, isSafariDesktop, isFirefox , isSafariMobile} from '../infoSources/browserInfos'
 
@@ -17,11 +17,10 @@ const AboutPage = () => {
 	const {fingerprint, pointer,timeToClickButton, ipInfos } = useDataStateCtx()
 	const dispatch = useDataDispatchCtx()
 	const [deleteInfos, setDeleteInfo] = useState(false)
-	
-	const [entries, setEntries]=useState([])
-
+	const [firstEntries, setFirstEntries]=useState([])
+	const [secondEntries, setSecondEntries]=useState([])
 	const navigate = useNavigate()
-	const {batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
+	const { batteryLevel,charging,chargingTime,dischargingTime} = useBatteryStatusEffect()
 	const [others, setOthers] = useState(null)
 
 	const[browsers, setBrowser] = useState([])
@@ -57,27 +56,22 @@ const AboutPage = () => {
 		const getSysInfos = async() => {
 			// let sysInfos = await getSystemInfos()		
 			// let inf = { ...sysInfos,...ipInfos, 'Pointer': pointer, 'Battery Level': batteryLevel, 'Battery is charging': charging?.toString(), 'Battery charging time': chargingTime, 'Battery discharging time': dischargingTime }
-			let sysInfos = await getSystemInfos()
-			// console.log("ipInfos")
-
-			// console.log(ipInfos)
+			let sysInfos = await getSysInfosInfos()
 			let inf = { ...sysInfos,...ipInfos, pointer: pointer, batteryLevel: batteryLevel, batteryCharging: charging, batteryChargingTime: chargingTime, batteryDischargingTime: dischargingTime }
-			// console.log("INF********!!!!!!!!")
-			// console.log(inf)
-			let infosIn = getSystemInfoStrings(inf)
-			// console.log("infosIn**************!!!!!!!!")
-			// console.log(sysInfos)
 
+			let infosIn = getSysInfoStringsInfos(inf)
+			// console.log("infosIn**************!!!!!!!!")
 			// console.log(infosIn)
 
 			// const fiteredInfos = filterData(inf)
 			// let entries = batteryLevel !== undefined ? Object.entries(inf) : Object.entries(sysInfos)
 			const entries = Object.entries(infosIn)
-		
+			let middle = entries.length / 2
+			let length = entries.length
+
 			if(isMounted){
-				// setFirstEntries(Object.entries(infosIn).slice(0,middle))
-				// setSecondEntries(Object.entries(infosIn).slice(middle, length - 1))
-				setEntries(Object.entries(infosIn))
+				setFirstEntries(Object.entries(infosIn).slice(0,middle))
+				setSecondEntries(Object.entries(infosIn).slice(middle, length - 1))
 			}
 		}
 		getSysInfos()	
@@ -88,16 +82,17 @@ const AboutPage = () => {
 		if(isChrome()) {
 			setBrowser(['Safari', 'Firefox'])
 		}
-		if(isSafariDesktop() || isSafariMobile()) {
+		else if(isSafariDesktop() || isSafariMobile()) {
 			setBrowser(['Chrome', 'Firefox'])
 		}
 
-		if(isFirefox()) {
+		else if(isFirefox()) {
 			setBrowser(['Chrome', 'Firefox'])
 		}
 		else{
 			setBrowser(['Chrome', 'Firefox'])
 		}
+
 	},[])
 
 
@@ -125,19 +120,20 @@ const AboutPage = () => {
 			</p>
 			</section>
 			<section id='infoSection'>
-				<p>Let's see what we know about you:)</p>
+				<p>the information we collected from you are:</p>
 	
 				<div className="row">
 					<div className='column'>
 						<table>
-							 <thead>
+							<thead>
 							<tr key={uuidv4()}>
 								{/* <th>Info</th> */}
-								{/* <th>Value</th> */}
+								<th>Value</th>
 							</tr>
-							</thead> 
+
+							</thead>
 							<tbody>
-							{entries && entries.map((info) => 
+							{firstEntries && firstEntries.map((info) => 
 							<tr key={uuidv4()}>
 								{/* <td>{info[0]}</td> */}
 								<td>{info[1]}</td>
@@ -147,7 +143,24 @@ const AboutPage = () => {
 						</table>
 					</div>
 
-					
+					<div className='column'>
+						<table>
+							<thead>
+							<tr key={uuidv4()}>
+								{/* <th>Info</th> */}
+								<th>Value</th>
+							</tr>
+							</thead>
+							<tbody>
+							{secondEntries && secondEntries.map((info) => 
+							<tr key={uuidv4()}>
+								{/* <td>{info[0]}</td> */}
+								<td>{info[1]}</td>
+							</tr>
+							)}
+							</tbody>
+						</table>
+					</div>
 
 				</div>
 			</section>

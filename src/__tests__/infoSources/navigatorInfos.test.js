@@ -1,5 +1,5 @@
 import * as actions from '../../infoSources/navigatorInfos'
-import * as browserActions from '../../infoSources/browserInfos'
+// import * as browserActions from '../../infoSources/browserInfos'
 
 
 const setNavigator= (value) => {
@@ -12,35 +12,6 @@ describe("navigatorInfos", () => {
 		jest.clearAllMocks()
 	})
 
-	it("should return true if its touchScreen", () => {
-		let value = {maxTouchPoints:12, userAgent:"",appCodeName: "Mozilla",appName: "Netscape"}
-		setNavigator(value)
-		expect(actions.isTouchScreen()).toBe(true)
-	})
-
-
-	it("should return false if its touchScreen", () => {
-		let value = {maxTouchPoints:0, userAgent:"",appCodeName: "Mozilla",appName: "Netscape"}
-		setNavigator(value)
-
-		expect(actions.isTouchScreen()).toBe(false)
-	})
-
-
-	it("should return connection", () => {
-		let value = {connection:{effectiveType: "4g", rtt:50, downlink:10}, userAgent:"",appCodeName: "Mozilla",appName: "Netscape"}
-		setNavigator(value)
-
-		expect(actions.getConnectionType()).toBe("4g")
-	})
-
-	it("should return undefined if no connection", () => {
-		let value = {userAgent:"",appCodeName: "Mozilla",appName: "Netscape"}
-		setNavigator(value)
-
-		expect(actions.getConnectionType()).toBe(undefined)
-	})
-
 	it("should return vendor", () => {
 		let value = {userAgent:"",appCodeName: "Mozilla",appName: "Netscape", vendor:"Google"}
 		setNavigator(value)
@@ -48,95 +19,13 @@ describe("navigatorInfos", () => {
 		expect(actions.getVendor()).toBe("Google")
 	})
 
-	it("should return Firefox when vendor is empty string", () => {
+	it("should return Mozilla when vendor is empty string", () => {
 		let value = {userAgent:"",appCodeName: "Mozilla",appName: "Netscape", vendor:""}
 		setNavigator(value)
 
-		expect(actions.getVendor()).toBe("Firefox")
+		expect(actions.getVendor()).toBe("Mozilla Firefox")
 	})
 
-	it("should return ipad as platform", () => {
-		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"Mac", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
-		setNavigator(value)
-
-		let isTouchSpy = jest.spyOn(actions, "isTouchScreen").mockReturnValueOnce(true)
-
-
-		expect(actions.getPlatform()).toEqual({"platform": "iPad", "version": "12_2_1"})
-		expect(isTouchSpy).toHaveBeenCalled()
-
-	})
-
-	it("should return macOs and 96 if its chrome browser as platform", async() => {
-		let value = {userAgentData:{getHighEntropyValues:async() => {return {brands:{}, platform:"macOs", platformVersion:96}}},appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel"}
-		setNavigator(value)
-
-		let isChromeSpy = jest.spyOn(browserActions, "isChrome").mockReturnValueOnce(true)
-
-		let resp = await actions.getPlatform()
-		expect(resp).toEqual({platform: 'macOs', version:96})
-		expect(isChromeSpy).toHaveBeenCalled()
-
-	})
-
-	it("should return macIntel  as platform", () => {
-		let value = {appCodeName: "Mozilla",appName: "Netscape", platform:"MacIntel", userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15'}
-		setNavigator(value)
-
-		expect(actions.getPlatform()).toEqual({"platform": "MacIntel", "version": "12_2_1"})
-
-	})
-
-	it("should return undefined as platform", () => {
-		let value = {userAgent: '',appCodeName: "Mozilla",appName: "Netscape"}
-		setNavigator(value)
-
-		expect(actions.getPlatform()).toEqual({"platform": undefined, "version": 0})
-
-	})
-
-	it('should return en as language', () => {
-		let value = {language:'en', appName:"", userAgent:''}
-		setNavigator(value)
-
-		expect(actions.getLanguage()).toEqual('en')
-	})
-
-	it('should return [en, de, fr] as language', () => {
-		let value = {language:'en', appName:"", userAgent:'', languages:['en', 'de', "fr"]}
-		setNavigator(value)
-
-		expect(actions.getLanguages()).toEqual(['en', 'de', "fr"])
-	})
-
-	it('should return 4 as cpu', () => {
-		let value = {language:'en', appName:"", userAgent:'', hardwareConcurrency:4 }
-		setNavigator(value)
-
-		expect(actions.getCPU()).toEqual(4)
-	})
-
-	it('should return undefined as cpu', () => {
-		let value = {language:'en', appName:"", userAgent:''}
-		setNavigator(value)
-
-		expect(actions.getCPU()).toEqual(undefined)
-	})
-
-
-	it('should return undefined as device memeory', () => {
-		let value = {language:'en', appName:"", userAgent:''}
-		setNavigator(value)
-
-		expect(actions.getDeviceMemeory()).toEqual(undefined)
-	})
-
-	it('should return 4 as device memeory', () => {
-		let value = {language:'en', appName:"", userAgent:'', deviceMemory:4}
-		setNavigator(value)
-
-		expect(actions.getDeviceMemeory()).toEqual(4)
-	})
 
 	it('should return true if Pdf Viewer is enabled', () => {
 		let value = {language:'en', appName:"", userAgent:'', pdfViewerEnabled:true}
@@ -168,10 +57,5 @@ describe("navigatorInfos", () => {
 		expect(actions.getPlugins()).toEqual(undefined)
 
 	})
-
-	
-
-
-
 
 })

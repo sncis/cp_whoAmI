@@ -1,4 +1,4 @@
-import { isTouchScreen } from './navigatorInfos'
+import { isTouchScreen } from './screenInfos'
 import * as browserInfosHelper from './browserInfos'
 
 export const isFirefox = ()=> {

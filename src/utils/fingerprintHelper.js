@@ -1,9 +1,5 @@
-//converting date string fromlast visits in more readable date
 export const getLastVisit = (entries) => {
-	// console.log(entries)
-	const lastEntrie = entries.slice(-1)[0]
-	// console.log(entries.slice(-1))
-	
+	const lastEntrie = entries.slice(-1)[0]	
 	if(!lastEntrie){
 		return undefined
 	}

@@ -1,4 +1,6 @@
-import port from '../img/port.jpeg'
+import chrome from '../img/chrome.jpeg'
+import firefox from '../img/firefox2.png'
+import safari from '../img/safari3.png'
 import {Particle} from './Particle'
 import { getBrowser } from '../infoSources/browserInfos'
 import { wait } from '../utils/filterHelpers'
@@ -24,14 +26,15 @@ export const sketch = (p5) => {
 // select image based on browser
 	const selectImg = (browser) => {
 		switch(browser){
-			case'chrome':
-				return port;
-			case ' firefox':
-				return true;
-			case 'safari':
-				return true
+			case'Chrome':
+				return chrome;
+			case 'Firefox':
+				return firefox;
+			case 'Safari':
+			case "Safari Mobile":
+				return safari
 			default:
-				return port
+				return chrome
 		}
 	}
 
@@ -174,9 +177,7 @@ export const sketch = (p5) => {
 
 	p5.setup = async() => {
 		await p5.state.displayInfos
-		await p5.state.drawVariables
-		console.log('displaInfos in sketch ', p5.state.displayInfos)
-		
+		await p5.state.drawVariables		
 		infos = Object.values(p5.state.displayInfos)
 
 		p5.createCanvas(width, height + 50)
@@ -189,7 +190,6 @@ export const sketch = (p5) => {
 					createPoints()
 				}
 				let index = (x + y * portImg.width) * 4
-				// let col = portImg.pixels[index]
 				let r = portImg.pixels[index]
 				let g = portImg.pixels[index +1]
 				let b = portImg.pixels[index+ 2]

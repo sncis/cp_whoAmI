@@ -4,12 +4,13 @@ import { mount } from 'enzyme'
 import { DataDispatchCtx, DataStateCtx } from '../../store/dataContext'
 import InfoComp from '../../components/InfoComp'
 
-jest.mock('../../store/actions/ipInfosFetcher', () => ({
+jest.mock('../../utils/ipInfosFetcher', () => ({
 	fetchIpInfos: () => Promise.resolve({ fetchInfos: "some ip info", fetchIPInfos: "some other info"})
 }))
 
+
 jest.mock('../../infoSources/systemInfos', () => ({
-	displayInfos: () => Promise.resolve({infos: "some system info"}),
+	getDisplayInfos: () => Promise.resolve({infos: "some system info"}),
 	getDrawVariables: () => Promise.resolve({drawInfos: "some drawIndos info"})
 }))
 
