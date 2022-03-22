@@ -1,6 +1,6 @@
 import chrome from '../img/chrome.jpeg'
-import firefox from '../img/firefox2.png'
-import safari from '../img/safari3.png'
+import firefox from '../img/firefox.png'
+import safari from '../img/safari.png'
 import {Particle} from './Particle'
 import { getBrowser } from '../infoSources/browserInfos'
 import { wait } from '../utils/filterHelpers'
