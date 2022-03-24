@@ -23,8 +23,10 @@ const InfoComp = () => {
 		let ipInfos = resp.data ? filterIPInfos(resp.data) : undefined
 		let dispalyInfos = await getDisplayInfos()
 		let drawVariables =  getDrawVariables()
+		
+		let bObj = batteryLevel !== undefined ? {batteryLevel: `Battery level is: ${batteryLevel}`,charging: charging ? "Device is charging": "Device is not chargin", chargingTime : `Remaining chargin time is: ${chargingTime}`,dischargingTime: `Remaining dischargin time is: ${dischargingTime}`}: undefined
 
-		let d = {...ipInfos,...dispalyInfos, batteryLevel,charging,chargingTime,dischargingTime}
+		let d = {...ipInfos,...dispalyInfos, ...bObj}
 		let data = filterData(d)
 		
 		dispatch({

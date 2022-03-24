@@ -13,12 +13,17 @@ const HomePage = () => {
 	const [renderComp, setRenderComp] = useState([])
 
 	useEffect(() => {
+		let isMounted = true
 		if(lastVisitText){
 			let index = Math.random() * 100
 			let props ={i:index,text: lastVisitText}
 			let element = createElement(TextComp, props)
-			setRenderComp(element)
+			if(isMounted){
+				setRenderComp(element)
+			}
+			
 		}
+		return () => isMounted = false
 	},[lastVisitText])
 
 

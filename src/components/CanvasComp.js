@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import P5Wrapper  from './P5Wrapper'
 import { useDataStateCtx,useDataDispatchCtx } from '../store/dataContext'
 import { sketch } from '../p5/sketch'
+// import { sketch } from '../p5/sketchTest'
 
 const CanvasComp = () => {
 	const state = useDataStateCtx()

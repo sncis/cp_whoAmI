@@ -92,7 +92,7 @@ describe("AboutPage", () => {
 	})
 
 	it('should call browserSpy', async() => {
-		const browserSpy = jest.spyOn(browserInfos, 'isChrome').mockReturnValue(true)
+		const browserSpy = jest.spyOn(browserInfos, 'getBrowser').mockReturnValue(true)
 
 		renderAboutPage()
 

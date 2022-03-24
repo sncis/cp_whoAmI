@@ -14,6 +14,7 @@ import { RESET_STORE } from '../store/constants'
 import { getSystemInfos, getSystemInfoStrings } from '../infoSources/systemInfos'
 import { useBatteryStatusEffect } from '../effects/batteryEffect'
 import { isChrome, isSafariDesktop, isFirefox , isSafariMobile} from '../infoSources/browserInfos'
+import { getBrowser } from '../infoSources/browserInfos'
 
 const AboutPage = () => {
 	const {fingerprint, pointer,timeToClickButton, ipInfos } = useDataStateCtx()
@@ -71,20 +72,39 @@ const AboutPage = () => {
 		return () => { isMounted = false }
 	},[batteryLevel,charging,chargingTime,dischargingTime, pointer,ipInfos])
 
-	useEffect(() => {
-		if(isChrome()) {
-			setBrowser(['Safari', 'Firefox'])
-		}
-		if(isSafariDesktop() || isSafariMobile()) {
-			setBrowser(['Chrome', 'Firefox'])
-		}
+	// useEffect(() => {
+	// 	if(isChrome()) {
+	// 		setBrowser(['Safari', 'Firefox', 'Chrome'])
+	// 	}
+	// 	if(isSafariDesktop() || isSafariMobile()) {
+	// 		setBrowser(['Chrome', 'Firefox', 'Safari'])
+	// 	}
 
-		if(isFirefox()) {
-			setBrowser(['Chrome', 'Firefox'])
-		}
-		else{
-			setBrowser(['Chrome', 'Firefox'])
-		}
+	// 	if(isFirefox()) {
+	// 		setBrowser(['Chrome', 'Safari', 'Firefox'])
+	// 	}
+	// 	else{
+	// 		setBrowser(['Safari', 'Firefox', 'Chrome'])
+	// 	}
+	// },[])
+
+	useEffect(() => {
+		let b = getBrowser()
+		switch(b){
+			case 'Chrome':
+				setBrowser(['Safari', 'Firefox', 'Chrome'])
+				break;
+			case 'Safari':
+			case "Safari Mobile":
+				setBrowser(['Chrome', 'Firefox', 'Safari'])
+				break;
+			case 'Firefox':
+				setBrowser(['Chrome', 'Safari', 'Firefox'])
+				break;
+			default:
+				setBrowser(['Safari', 'Firefox', 'Chrome'])
+				break;
+		}	
 	},[])
 
 
@@ -131,28 +151,19 @@ const AboutPage = () => {
 				<div className="info-container">
 					<div className='column'>
 						<table>
-							 {/* <thead> */}
-							{/* <tr key={uuidv4()}> */}
-								{/* <th>Info</th> */}
-								{/* <th>Value</th> */}
-							{/* </tr> */}
-							{/* </thead>  */}
 							<tbody>
 							{entries && entries.map((info) => 
 							<tr key={uuidv4()}>
-								{/* <td>{info[0]}</td> */}
 								<td>{info[1]}</td>
 							</tr>
 							)}
 							</tbody>
 						</table>
 					</div>
-
-					
-
 				</div>
 			</section>
-
+			<p id='delete-info'>If you wish, you can of course delete your data. But it would be very nice if you would leave it to us for research purposes. 
+				Don't worry, the data is completely anonymous and cannot identify you. We store them only in raw format like: 'Browser': '{browsers[2]}'.</p>
 			<button id="deleteBtn" onClick={() => setDeleteInfo(true)}>delete my Data</button>  
 		</div>
 	)

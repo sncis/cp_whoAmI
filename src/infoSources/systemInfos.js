@@ -22,7 +22,7 @@ export const getDisplayInfos = async() => {
 		deviceMemory: getDeviceMemeory(),
 		cpu : getCPU(),
 		fonts : getFonts().length,
-		plugins: NAV_INFOS.getPlugins(),
+		// plugins: NAV_INFOS.getPlugins(),
 		keyLayout: await getKeyboardLayout(),
 		browser: getBrowser(),
 		browserVersion: await getBrowserVersion(),
@@ -31,7 +31,7 @@ export const getDisplayInfos = async() => {
 		zoomLevel: NAV_INFOS.getZoomLevel(),
 		deviceOrientation: isLandscape() ? 'Device is in Landscape orientation' : 'Device is in Portrait orientation',
 		isTouchscreen: isTouchScreen() ? 'Device is a touch device' : 'Device is not a touch device',
-		bluetoothEnbaled : await getBluetoothEnabled() ? 'Bluetooth accessable' : 'Bluetooth not accessable',
+		bluetoothEnbaled : await getBluetoothEnabled() ? 'Bluetooth is accessible' : 'Bluetooth not accessible',
 	}
 
 	return filterData(infos)

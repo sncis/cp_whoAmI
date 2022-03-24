@@ -7,7 +7,6 @@ import { storeFingerprint, getFingerprintInfos } from '../utils/fingerPrintActio
 import { SET_FINGERPRINT, SET_LASTVISITSTEXT } from '../store/constants'
 
 const FingerprintComp = () => {
-	const [finger, setFinger] = useState(undefined)
 	const dispatch = useDataDispatchCtx()
 	const canvasRef = useRef(null)
 
@@ -35,7 +34,7 @@ const createFingerPrintString = useCallback(async()=> {
 	
 	const systemString = Object.values(fingerPrintSystemInfos).join('').replace(/[\s,-.—]/g, '')
 	const fingerPrint = hashFunction(systemString.concat(drawHash))
-		setFinger(fingerPrint)
+		
 	return {fingerPrint: fingerPrint, fingerPrintSystemInfos: fingerPrintSystemInfos }
 	
 },[drawFingerprint])
