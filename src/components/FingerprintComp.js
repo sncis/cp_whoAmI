@@ -47,7 +47,7 @@ const doFingerprint = useCallback(async() => {
 	})
 	const lastVisit = await getFingerprintInfos(fingerPrint)
 
-	const text = lastVisit ? `Welcome Back! You visted us already ${lastVisit.n} times. The last time on the ${lastVisit.day} at ${lastVisit.time}` : "Welcome for the fist time!" 
+	const text = `Welcome Back! You visted us already ${lastVisit.n} times. The last time on the ${lastVisit.day} at ${lastVisit.time}` 
 	
 	dispatch({
 		type: SET_LASTVISITSTEXT,
