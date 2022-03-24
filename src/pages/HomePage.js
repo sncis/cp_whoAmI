@@ -14,15 +14,16 @@ const HomePage = () => {
 
 	useEffect(() => {
 		let isMounted = true
-		if(lastVisitText){
+		
 			let index = Math.random() * 100
-			let props ={i:index,text: lastVisitText}
+			let props ={i:index,text: lastVisitText ? lastVisitText :  "Welcome for the fist time!"}
 			let element = createElement(TextComp, props)
+		
 			if(isMounted){
 				setRenderComp(element)
 			}
 			
-		}
+		
 		return () => isMounted = false
 	},[lastVisitText])
 

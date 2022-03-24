@@ -72,21 +72,6 @@ const AboutPage = () => {
 		return () => { isMounted = false }
 	},[batteryLevel,charging,chargingTime,dischargingTime, pointer,ipInfos])
 
-	// useEffect(() => {
-	// 	if(isChrome()) {
-	// 		setBrowser(['Safari', 'Firefox', 'Chrome'])
-	// 	}
-	// 	if(isSafariDesktop() || isSafariMobile()) {
-	// 		setBrowser(['Chrome', 'Firefox', 'Safari'])
-	// 	}
-
-	// 	if(isFirefox()) {
-	// 		setBrowser(['Chrome', 'Safari', 'Firefox'])
-	// 	}
-	// 	else{
-	// 		setBrowser(['Safari', 'Firefox', 'Chrome'])
-	// 	}
-	// },[])
 
 	useEffect(() => {
 		let b = getBrowser()

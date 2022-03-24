@@ -59,7 +59,7 @@ export const dataReducer= (state, {type, payload}) => {
 		}
 	case 'RESET_STORE':
 		return {
-			loading:false
+			loading: false
 		}
 	default: 
 		return {
