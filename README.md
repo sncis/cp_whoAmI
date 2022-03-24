@@ -2,15 +2,14 @@
 
 This project is a capstone project and is intended to present the topic of data protection in a creative way. 
 \
-You can view the live version of the project [here](https://cpwhoami.herokuapp.com/).
-\ 
+You can view the live version of the project [here](https://cpwhoami.herokuapp.com/).<br />
+
 The website shows visitors what information a website can collect about them without using cookies, trackers or other additional technologies. The website only collects data from various browser features and propertie. 
-Supported browsers are Chrome, Safari and Firefox. It may or may not work in all other browsers.
-\ 
-The animation was created using [p5js](https://p5js.org/) and is integrated into a React component.
-\
-The Node backend for this web application can be found [here](https://github.com/sncis/cp_whoAmI_backend).
-\
+Supported browsers are Chrome, Safari and Firefox. It may or may not work in all other browsers.<br />
+ 
+The animation was created using [p5js](https://p5js.org/) and is integrated into a React component.<br />
+
+The Node backend for this web application can be found [here](https://github.com/sncis/cp_whoAmI_backend).<br />
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
